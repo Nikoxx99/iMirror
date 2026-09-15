@@ -9,7 +9,7 @@ use crate::{
         unity_capture::{UnityCaptureFramePayload, UnityCapturePublishResult},
     },
 };
-use std::{path::PathBuf, process::Command};
+use std::{fs, path::PathBuf, process::Command};
 use tauri::{
     ipc::{InvokeBody, Request},
     AppHandle, Manager,
@@ -203,10 +203,16 @@ fn run_camera_driver_script(
 
     let script_arg = powershell_literal(&script);
     let directory_arg = powershell_literal(&driver_directory);
+    let log_path = std::env::temp_dir().join(format!(
+        "imirror-camera-driver-{}-{}.log",
+        std::process::id(),
+        completed_action
+    ));
+    let log_arg = powershell_literal(&log_path);
     let elevated = format!(
-        "$p=Start-Process -FilePath 'powershell.exe' -Verb RunAs -Wait -PassThru -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File',{script_arg},'-DriverPath',{directory_arg}); exit $p.ExitCode"
+        "$ErrorActionPreference='Stop'; Unblock-File -LiteralPath {script_arg} -ErrorAction SilentlyContinue; $p=Start-Process -FilePath 'powershell.exe' -Verb RunAs -Wait -PassThru -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File',{script_arg},'-DriverPath',{directory_arg},'-LogPath',{log_arg}); exit $p.ExitCode"
     );
-    let status = Command::new("powershell.exe")
+    let output = Command::new("powershell.exe")
         .args([
             "-NoProfile",
             "-ExecutionPolicy",
@@ -214,7 +220,7 @@ fn run_camera_driver_script(
             "-Command",
             &elevated,
         ])
-        .status()
+        .output()
         .map_err(|error| {
             crate::errors::IMirrorError::new(
                 "camera-driver-launch-failed",
@@ -223,12 +229,21 @@ fn run_camera_driver_script(
             .with_detail(error.to_string())
         })?;
 
-    if !status.success() {
-        return Err(crate::errors::IMirrorError::new(
+    if !output.status.success() {
+        let mut detail = String::from_utf8_lossy(&output.stdout).into_owned();
+        detail.push_str(&String::from_utf8_lossy(&output.stderr));
+        if let Ok(log) = fs::read_to_string(&log_path) {
+            detail.push_str(&log);
+        }
+        let mut error = crate::errors::IMirrorError::new(
             "camera-driver-action-failed",
             "The camera driver action was cancelled or failed.",
         )
-        .with_fix("Accept the Windows administrator prompt and try again."));
+        .with_fix("Accept the Windows administrator prompt and review the diagnostic details.");
+        if let Some(detail) = compact_driver_diagnostic(&detail) {
+            error = error.with_detail(detail);
+        }
+        return Err(error);
     }
 
     Ok(DriverActionResult {
@@ -237,6 +252,20 @@ fn run_camera_driver_script(
             "iMirror Camera was {completed_action}. Restart apps that already had their camera list open."
         ),
     })
+}
+
+fn compact_driver_diagnostic(detail: &str) -> Option<String> {
+    let trimmed = detail.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+
+    let compact: String = trimmed.chars().take(6000).collect();
+    if compact.chars().count() < trimmed.chars().count() {
+        Some(format!("{compact}\n[diagnostic output truncated]"))
+    } else {
+        Some(compact)
+    }
 }
 
 #[cfg(not(target_os = "windows"))]

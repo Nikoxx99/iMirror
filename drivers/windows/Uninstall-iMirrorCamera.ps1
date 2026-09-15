@@ -1,8 +1,27 @@
 param(
-    [string]$DriverPath = $PSScriptRoot
+    [string]$DriverPath = $PSScriptRoot,
+    [string]$LogPath = ""
 )
 
 $ErrorActionPreference = "Stop"
+$script:TranscriptStarted = $false
+
+if ($LogPath) {
+    try {
+        Start-Transcript -Path $LogPath -Force | Out-Null
+        $script:TranscriptStarted = $true
+    } catch {
+        Write-Warning "Could not start installer diagnostics: $($_.Exception.Message)"
+    }
+}
+
+trap {
+    Write-Host "ERROR: $($_ | Out-String)" -ForegroundColor Red
+    if ($script:TranscriptStarted) {
+        Stop-Transcript | Out-Null
+    }
+    exit 1
+}
 
 function Assert-Administrator {
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -82,3 +101,8 @@ Send-DeviceChangeBroadcast
 Write-Host ""
 Write-Host "Removal complete." -ForegroundColor Green
 Write-Host "Restart Chrome or any app that had the camera picker open."
+
+if ($script:TranscriptStarted) {
+    Stop-Transcript | Out-Null
+}
+exit 0

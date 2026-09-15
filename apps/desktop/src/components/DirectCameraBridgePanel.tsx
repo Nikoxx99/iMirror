@@ -1,7 +1,7 @@
 import { AlertTriangle, CheckCircle2, Copy, Download, Radio, Trash2, Video } from "lucide-react";
 import { useState } from "react";
 import type { DirectCameraBridgeState } from "../hooks/useUnityCaptureBridge";
-import { installWindowsCamera, uninstallWindowsCamera } from "../lib/api";
+import { describeDriverActionError, installWindowsCamera, uninstallWindowsCamera } from "../lib/api";
 import { Button } from "./ui/Button";
 
 interface DirectCameraBridgePanelProps {
@@ -26,7 +26,7 @@ export function DirectCameraBridgePanel({ bridge, compact = false }: DirectCamer
       const result = action === "install" ? await installWindowsCamera() : await uninstallWindowsCamera();
       setDriverMessage(result.message);
     } catch (error) {
-      setDriverMessage(error instanceof Error ? error.message : "The camera driver action failed.");
+      setDriverMessage(describeDriverActionError(error));
     } finally {
       setDriverBusy(false);
     }
@@ -84,7 +84,7 @@ export function DirectCameraBridgePanel({ bridge, compact = false }: DirectCamer
               Copy test steps
             </Button>
           </div>
-          {driverMessage ? <p className="mt-3 text-sm text-slate-300">{driverMessage}</p> : null}
+          {driverMessage ? <p className="mt-3 whitespace-pre-line text-sm text-slate-300">{driverMessage}</p> : null}
         </>
       ) : null}
     </section>

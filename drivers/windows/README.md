@@ -4,7 +4,7 @@ iMirror V2 includes an experimental DirectShow camera path for Windows.
 
 What is included:
 
-- `UnityCaptureFilter64.dll` and `UnityCaptureFilter32.dll`
+- `UnityCaptureFilter64.dll` for modern Windows x64
 - `Install-iMirrorCamera.ps1`
 - `Uninstall-iMirrorCamera.ps1`
 - A Tauri/Rust shared-memory frame publisher in the desktop app

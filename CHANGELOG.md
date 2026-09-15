@@ -1,3 +1,9 @@
+# iMirror 0.1.1
+
+- Fix Windows camera-driver installation diagnostics and PowerShell elevation handling.
+- Automatically unblock the bundled installer script and surface the real PowerShell error in the desktop UI.
+- Keep the Windows camera package x64-only for modern Windows 11 systems.
+
 # Changelog
 
 ## 0.1.0

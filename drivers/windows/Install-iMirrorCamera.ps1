@@ -1,9 +1,28 @@
 param(
     [string]$DriverPath = $PSScriptRoot,
-    [string]$CameraName = "iMirror Camera"
+    [string]$CameraName = "iMirror Camera",
+    [string]$LogPath = ""
 )
 
 $ErrorActionPreference = "Stop"
+$script:TranscriptStarted = $false
+
+if ($LogPath) {
+    try {
+        Start-Transcript -Path $LogPath -Force | Out-Null
+        $script:TranscriptStarted = $true
+    } catch {
+        Write-Warning "Could not start installer diagnostics: $($_.Exception.Message)"
+    }
+}
+
+trap {
+    Write-Host "ERROR: $($_ | Out-String)" -ForegroundColor Red
+    if ($script:TranscriptStarted) {
+        Stop-Transcript | Out-Null
+    }
+    exit 1
+}
 
 function Assert-Administrator {
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -33,7 +52,7 @@ function Invoke-RegSvr32 {
             "regsvr32 failed for $DllPath with exit code $($process.ExitCode).",
             "Try these fixes:",
             "1. Confirm this PowerShell window is running as Administrator.",
-            "2. Install Microsoft Visual C++ 2015-2022 Redistributable for x64 and x86.",
+            "2. Install Microsoft Visual C++ 2015-2022 Redistributable for x64.",
             "3. Keep the repo in a local, fully synced folder; OneDrive cloud-only files cannot be registered.",
             "4. Run: Unblock-File -LiteralPath `"$DllPath`""
         ) -join [Environment]::NewLine
@@ -137,3 +156,8 @@ Write-Host ""
 Write-Host "Installation complete." -ForegroundColor Green
 Write-Host "Restart Chrome, then select '$CameraName' from the camera picker."
 Write-Host "Keep iMirror running and your phone connected before opening the camera."
+
+if ($script:TranscriptStarted) {
+    Stop-Transcript | Out-Null
+}
+exit 0

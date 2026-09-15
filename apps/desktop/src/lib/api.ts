@@ -36,6 +36,31 @@ export interface DriverActionResult {
   message: string;
 }
 
+export interface DriverActionError {
+  code?: string;
+  message?: string;
+  technicalDetail?: string;
+  suggestedFix?: string;
+}
+
+export function describeDriverActionError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (typeof error === "object" && error !== null) {
+    const candidate = error as DriverActionError;
+    const parts = [candidate.message, candidate.technicalDetail, candidate.suggestedFix].filter(
+      (value): value is string => Boolean(value?.trim())
+    );
+    if (parts.length > 0) {
+      return parts.join("\n\n");
+    }
+  }
+
+  return "The camera driver action failed. Check the diagnostic details and try again.";
+}
+
 export interface TrustDeviceRequest {
   deviceId: string;
   label: string;
