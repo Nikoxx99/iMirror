@@ -288,9 +288,44 @@ fn bundled_driver_directory(app: &AppHandle) -> IMirrorResult<PathBuf> {
         )
         .with_detail(error.to_string())
     })?;
-    Ok(resource_directory.join("drivers"))
+    Ok(strip_extended_windows_prefix(resource_directory).join("drivers"))
+}
+
+fn strip_extended_windows_prefix(path: PathBuf) -> PathBuf {
+    let value = path.to_string_lossy();
+    if let Some(rest) = value.strip_prefix(r"\\?\UNC\") {
+        return PathBuf::from(format!(r"\\{rest}"));
+    }
+    if let Some(rest) = value.strip_prefix(r"\\?\") {
+        return PathBuf::from(rest);
+    }
+    path
 }
 
 fn powershell_literal(path: &std::path::Path) -> String {
     format!("'{}'", path.display().to_string().replace('\'', "''"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::strip_extended_windows_prefix;
+    use std::path::PathBuf;
+
+    #[test]
+    fn strips_extended_drive_prefix() {
+        let path = PathBuf::from(r"\\?\C:\Users\Usuario\AppData\Local\iMirror");
+        assert_eq!(
+            strip_extended_windows_prefix(path),
+            PathBuf::from(r"C:\Users\Usuario\AppData\Local\iMirror")
+        );
+    }
+
+    #[test]
+    fn converts_extended_unc_prefix() {
+        let path = PathBuf::from(r"\\?\UNC\server\share\iMirror");
+        assert_eq!(
+            strip_extended_windows_prefix(path),
+            PathBuf::from(r"\\server\share\iMirror")
+        );
+    }
 }

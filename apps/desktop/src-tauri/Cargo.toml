@@ -1,6 +1,6 @@
 [package]
 name = "imirror-desktop"
-version = "0.1.1"
+version = "0.1.2"
 description = "Turn an iPhone or Android phone into a private Windows webcam over Wi-Fi"
 authors = ["Nikoxx99", "Abhijeet Ranjan"]
 edition = "2021"

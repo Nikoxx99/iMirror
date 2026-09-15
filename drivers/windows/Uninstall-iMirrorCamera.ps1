@@ -31,6 +31,23 @@ function Assert-Administrator {
     }
 }
 
+function Convert-ToNativeWindowsPath {
+    param([string]$Path)
+
+    $native = $Path
+    $providerPrefix = "Microsoft.PowerShell.Core\FileSystem::"
+    if ($native.StartsWith($providerPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        $native = $native.Substring($providerPrefix.Length)
+    }
+    if ($native.StartsWith('\\?\UNC\', [StringComparison]::OrdinalIgnoreCase)) {
+        return "\\$($native.Substring(8))"
+    }
+    if ($native.StartsWith('\\?\', [StringComparison]::OrdinalIgnoreCase)) {
+        return $native.Substring(4)
+    }
+    return [IO.Path]::GetFullPath($native)
+}
+
 function Unregister-Filter {
     param(
         [string]$RegSvr32,
@@ -85,9 +102,10 @@ public static class IMirrorDeviceBroadcast {
 Write-Host "iMirror Camera driver removal" -ForegroundColor Cyan
 Assert-Administrator
 
-$resolvedDriverPath = (Resolve-Path -LiteralPath $DriverPath).Path
+$resolvedDriverPath = Convert-ToNativeWindowsPath -Path $DriverPath
 $dll64 = Join-Path $resolvedDriverPath "UnityCaptureFilter64.dll"
 
+Write-Host "Using native driver path: $resolvedDriverPath"
 Write-Host "Unregistering 64-bit DirectShow filter..."
 Unregister-Filter -RegSvr32 "$env:SystemRoot\System32\regsvr32.exe" -DllPath $dll64
 

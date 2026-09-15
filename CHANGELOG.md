@@ -1,3 +1,8 @@
+# iMirror 0.1.2
+
+- Fix Windows camera-driver registration when the installed resource path uses PowerShell's provider-qualified or `\\?\` extended path format.
+- Normalize driver paths to native Windows paths before invoking `regsvr32`.
+
 # iMirror 0.1.1
 
 - Fix Windows camera-driver installation diagnostics and PowerShell elevation handling.
