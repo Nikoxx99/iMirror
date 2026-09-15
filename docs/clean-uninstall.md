@@ -1,12 +1,12 @@
 # Clean Uninstall
 
-LensBridge can register a Windows DirectShow filter when you install `LensBridge Camera`.
+iMirror can register a Windows DirectShow filter when you install `iMirror Camera`.
 
 Potential state:
 
 - App config in the future platform config directory.
 - Browser permission state in the phone browser.
-- Windows DirectShow registration for `LensBridge Camera` if you installed it.
+- Windows DirectShow registration for `iMirror Camera` if you installed it.
 - Linux `v4l2loopback` module if you choose to load it.
 
 Windows camera cleanup:

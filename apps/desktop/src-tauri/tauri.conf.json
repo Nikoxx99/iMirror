@@ -1,18 +1,18 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "LensBridge Desktop",
+  "productName": "iMirror",
   "version": "0.1.0",
-  "identifier": "dev.lensbridge.desktop",
+  "identifier": "io.github.nikoxx99.imirror",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:5173",
-    "beforeBuildCommand": "pnpm build",
+    "beforeBuildCommand": "corepack pnpm@11.3.0 --filter @imirror/phone build && corepack pnpm@11.3.0 build",
     "frontendDist": "../dist"
   },
   "app": {
     "windows": [
       {
-        "title": "LensBridge Desktop",
+        "title": "iMirror",
         "create": false,
         "width": 1180,
         "height": 760,
@@ -31,10 +31,23 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "targets": ["nsis"],
     "category": "Utility",
-    "shortDescription": "Bridge camera sources into desktop apps.",
-    "longDescription": "LensBridge is a local-first universal camera bridge.",
-    "icon": ["icons/icon.ico"]
+    "shortDescription": "Use your phone as a private wireless webcam on Windows 11.",
+    "longDescription": "iMirror turns an iPhone or Android camera into a low-latency Windows webcam over your local Wi-Fi network.",
+    "publisher": "Nikoxx99",
+    "copyright": "Copyright © 2026 Nikoxx99 and iMirror contributors",
+    "icon": ["icons/icon.ico"],
+    "resources": {
+      "../../../drivers/windows/UnityCaptureFilter64.dll": "drivers/UnityCaptureFilter64.dll",
+      "../../../drivers/windows/Install-iMirrorCamera.ps1": "drivers/Install-iMirrorCamera.ps1",
+      "../../../drivers/windows/Uninstall-iMirrorCamera.ps1": "drivers/Uninstall-iMirrorCamera.ps1",
+      "../../../drivers/windows/THIRD_PARTY_NOTICES.md": "drivers/THIRD_PARTY_NOTICES.md"
+    },
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser"
+      }
+    }
   }
 }

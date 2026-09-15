@@ -1,4 +1,4 @@
-use crate::errors::{LensBridgeError, LensBridgeResult};
+use crate::errors::{IMirrorError, IMirrorResult};
 use serde::{Deserialize, Serialize};
 use std::time::Instant;
 
@@ -26,7 +26,7 @@ pub struct UnityCapturePublishResult {
 
 pub fn publish_unity_capture_frame(
     payload: UnityCaptureFramePayload,
-) -> LensBridgeResult<UnityCapturePublishResult> {
+) -> IMirrorResult<UnityCapturePublishResult> {
     let started_at = Instant::now();
 
     #[cfg(target_os = "windows")]
@@ -53,24 +53,24 @@ pub fn publish_unity_capture_frame(
 
 pub fn publish_unity_capture_frame_binary(
     payload: &[u8],
-) -> LensBridgeResult<UnityCapturePublishResult> {
+) -> IMirrorResult<UnityCapturePublishResult> {
     const HEADER_BYTES: usize = 9;
 
     if payload.len() < HEADER_BYTES {
-        return Err(LensBridgeError::new(
+        return Err(IMirrorError::new(
             "virtual_cam_bad_frame",
             "Binary frame payload is too short.",
         ));
     }
 
     let width = u32::from_le_bytes(payload[0..4].try_into().map_err(|_| {
-        LensBridgeError::new(
+        IMirrorError::new(
             "virtual_cam_bad_frame",
             "Could not read binary frame width.",
         )
     })?);
     let height = u32::from_le_bytes(payload[4..8].try_into().map_err(|_| {
-        LensBridgeError::new(
+        IMirrorError::new(
             "virtual_cam_bad_frame",
             "Could not read binary frame height.",
         )
@@ -102,7 +102,7 @@ pub fn publish_unity_capture_frame_binary(
     Ok(result)
 }
 
-pub fn reset_unity_capture_bridge() -> LensBridgeResult<()> {
+pub fn reset_unity_capture_bridge() -> IMirrorResult<()> {
     #[cfg(target_os = "windows")]
     {
         windows_bridge::reset();
@@ -111,9 +111,9 @@ pub fn reset_unity_capture_bridge() -> LensBridgeResult<()> {
     Ok(())
 }
 
-fn validate_frame(width: u32, height: u32, rgba: &[u8]) -> LensBridgeResult<usize> {
+fn validate_frame(width: u32, height: u32, rgba: &[u8]) -> IMirrorResult<usize> {
     if width == 0 || height == 0 {
-        return Err(LensBridgeError::new(
+        return Err(IMirrorError::new(
             "virtual_cam_bad_frame",
             "Frame dimensions must be greater than zero.",
         ));
@@ -123,14 +123,14 @@ fn validate_frame(width: u32, height: u32, rgba: &[u8]) -> LensBridgeResult<usiz
         .checked_mul(height)
         .and_then(|pixels| pixels.checked_mul(4))
         .ok_or_else(|| {
-            LensBridgeError::new(
+            IMirrorError::new(
                 "virtual_cam_frame_too_large",
                 "Frame dimensions are too large.",
             )
         })? as usize;
 
     if rgba.len() != expected_len {
-        return Err(LensBridgeError::new(
+        return Err(IMirrorError::new(
             "virtual_cam_bad_frame",
             "RGBA frame size does not match width and height.",
         )
@@ -143,7 +143,7 @@ fn validate_frame(width: u32, height: u32, rgba: &[u8]) -> LensBridgeResult<usiz
 #[cfg(target_os = "windows")]
 mod windows_bridge {
     use super::{validate_frame, UnityCaptureFramePayload, UnityCapturePublishResult};
-    use crate::errors::{LensBridgeError, LensBridgeResult};
+    use crate::errors::{IMirrorError, IMirrorResult};
     use base64::{engine::general_purpose, Engine};
     use std::{
         ptr::{null, null_mut},
@@ -174,13 +174,11 @@ mod windows_bridge {
 
     static BRIDGE: OnceLock<Mutex<UnityCaptureBridge>> = OnceLock::new();
 
-    pub fn publish(
-        payload: UnityCaptureFramePayload,
-    ) -> LensBridgeResult<UnityCapturePublishResult> {
+    pub fn publish(payload: UnityCaptureFramePayload) -> IMirrorResult<UnityCapturePublishResult> {
         let rgba = general_purpose::STANDARD
             .decode(payload.rgba_base64.as_bytes())
             .map_err(|err| {
-                LensBridgeError::new(
+                IMirrorError::new(
                     "virtual_cam_bad_frame",
                     "Could not decode RGBA frame payload.",
                 )
@@ -195,11 +193,11 @@ mod windows_bridge {
         height: u32,
         mirror: bool,
         rgba: &[u8],
-    ) -> LensBridgeResult<UnityCapturePublishResult> {
+    ) -> IMirrorResult<UnityCapturePublishResult> {
         validate_frame(width, height, rgba)?;
         let bridge = BRIDGE.get_or_init(|| Mutex::new(UnityCaptureBridge::default()));
         let mut bridge = bridge.lock().map_err(|_| {
-            LensBridgeError::new(
+            IMirrorError::new(
                 "virtual_cam_bridge_locked",
                 "UnityCapture bridge is busy. Try again in a moment.",
             )
@@ -207,7 +205,7 @@ mod windows_bridge {
 
         match bridge.publish(width, height, mirror, rgba) {
             Ok(result) => Ok(result),
-            Err(UnityCaptureSendError::TooLarge(message)) => Err(LensBridgeError::new(
+            Err(UnityCaptureSendError::TooLarge(message)) => Err(IMirrorError::new(
                 "virtual_cam_frame_too_large",
                 "Frame is larger than UnityCapture can accept.",
             )
@@ -299,7 +297,7 @@ mod windows_bridge {
                     width,
                     height,
                     last_waiting_message.unwrap_or_else(|| {
-                        "LensBridge Camera is open, but its shared-memory receiver is not ready yet. Keep the camera preview open for a few seconds.".into()
+                        "iMirror Camera is open, but its shared-memory receiver is not ready yet. Keep the camera preview open for a few seconds.".into()
                     }),
                 ));
             }
@@ -318,10 +316,10 @@ mod windows_bridge {
                 height,
                 message: if skipped_frame {
                     format!(
-                        "Frame delivered to LensBridge Camera ({receiver_label}). The receiver is naturally throttling some frames."
+                        "Frame delivered to iMirror Camera ({receiver_label}). The receiver is naturally throttling some frames."
                     )
                 } else {
-                    format!("Frame delivered to LensBridge Camera ({receiver_label}).")
+                    format!("Frame delivered to iMirror Camera ({receiver_label}).")
                 },
                 rust_frame_write_micros: None,
             })
@@ -443,7 +441,7 @@ mod windows_bridge {
                 let max_size = read_u32(self.shared_view, 0) as usize;
                 if max_size == 0 {
                     return Err(UnityCaptureSendError::NotReady(
-                        "LensBridge Camera shared memory is open but not initialized yet.".into(),
+                        "iMirror Camera shared memory is open but not initialized yet.".into(),
                     ));
                 }
 
@@ -494,9 +492,9 @@ mod windows_bridge {
                     width,
                     height,
                     message: if skipped_frame {
-                        "Frame delivered. Receiver did not request every frame, so LensBridge is throttling naturally.".into()
+                        "Frame delivered. Receiver did not request every frame, so iMirror is throttling naturally.".into()
                     } else {
-                        "Frame delivered to LensBridge Camera.".into()
+                        "Frame delivered to iMirror Camera.".into()
                     },
                     rust_frame_write_micros: None,
                 })
@@ -509,7 +507,7 @@ mod windows_bridge {
                     self.mutex = OpenMutexW(SYNCHRONIZE, 0, self.names.mutex.as_ptr());
                     if self.mutex.is_null() {
                         return Err(UnityCaptureSendError::NotReady(
-                            "LensBridge Camera has not been opened by a receiving app yet.".into(),
+                            "iMirror Camera has not been opened by a receiving app yet.".into(),
                         ));
                     }
                 }
@@ -536,7 +534,7 @@ mod windows_bridge {
                     self.sent_event = OpenEventW(EVENT_MODIFY_STATE, 0, self.names.sent.as_ptr());
                     if self.sent_event.is_null() {
                         return Err(UnityCaptureSendError::NotReady(
-                            "LensBridge Camera receiver is starting. Keep the target app camera preview open for a moment.".into(),
+                            "iMirror Camera receiver is starting. Keep the target app camera preview open for a moment.".into(),
                         ));
                     }
                 }
@@ -546,7 +544,7 @@ mod windows_bridge {
                         OpenFileMappingW(FILE_MAP_WRITE, 0, self.names.data.as_ptr());
                     if self.shared_file.is_null() {
                         return Err(UnityCaptureSendError::NotReady(
-                            "LensBridge Camera shared memory is not ready yet. Keep the target app camera preview open.".into(),
+                            "iMirror Camera shared memory is not ready yet. Keep the target app camera preview open.".into(),
                         ));
                     }
                 }

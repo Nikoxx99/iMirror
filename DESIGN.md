@@ -2,7 +2,7 @@
 
 ## Visual Language
 
-LensBridge uses a dark graphite base, one cool accent, quiet borders, and direct product states. The video should be the
+iMirror uses a dark graphite base, one cool accent, quiet borders, and direct product states. The video should be the
 visual center. Decorative gradients, glass panels, and nested cards should be rare.
 
 ## Spacing
@@ -13,14 +13,14 @@ visual center. Decorative gradients, glass panels, and nested cards should be ra
 
 ## Typography
 
-- Prefer direct headings: "LensBridge Camera", "Phone connected", "Waiting for phone".
+- Prefer direct headings: "iMirror Camera", "Phone connected", "Waiting for phone".
 - Avoid marketing phrasing inside operational UI.
 - Keep helper copy short and actionable.
 
 ## Color
 
 - Base: dark graphite.
-- Accent: LensBridge blue.
+- Accent: iMirror blue.
 - Success: muted green.
 - Warning: amber only for real caveats.
 - Avoid purple-blue glow palettes and multi-accent gradients.

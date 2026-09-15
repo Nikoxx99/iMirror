@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>LensBridge Camera Test</title>
+    <title>iMirror Camera Test</title>
     <style>
       :root {
         color-scheme: dark;
@@ -125,7 +125,7 @@
         color: #dbeafe;
       }
 
-      .device.lensbridge {
+      .device.imirror {
         outline: 1px solid rgba(16, 185, 129, 0.65);
       }
 
@@ -138,10 +138,10 @@
   </head>
   <body>
     <main>
-      <h1>LensBridge Camera Test</h1>
+      <h1>iMirror Camera Test</h1>
       <p>
-        Use this page after installing the Windows driver. Start LensBridge Desktop, connect your phone, then select
-        <strong>LensBridge Camera</strong> below.
+        Use this page after installing the Windows driver. Start iMirror Desktop, connect your phone, then select
+        <strong>iMirror Camera</strong> below.
       </p>
       <p>
         If Chrome shows a camera permission popup, click <strong>Allow this time</strong>, then click
@@ -187,7 +187,7 @@
 
         const devices = await navigator.mediaDevices.enumerateDevices();
         const cameras = devices.filter((device) => device.kind === "videoinput");
-        const lensBridge = cameras.find((device) => /lensbridge|unity video capture/i.test(device.label));
+        const lensBridge = cameras.find((device) => /imirror|unity video capture/i.test(device.label));
 
         select.innerHTML = "";
         deviceList.innerHTML = "";
@@ -200,14 +200,14 @@
           select.append(option);
 
           const item = document.createElement("div");
-          const isLensBridge = /lensbridge|unity video capture/i.test(camera.label);
-          item.className = "device" + (isLensBridge ? " lensbridge" : "");
-          item.textContent = (isLensBridge ? "LensBridge: " : "") + (camera.label || "Unnamed camera");
+          const isiMirror = /imirror|unity video capture/i.test(camera.label);
+          item.className = "device" + (isiMirror ? " imirror" : "");
+          item.textContent = (isiMirror ? "iMirror: " : "") + (camera.label || "Unnamed camera");
           deviceList.append(item);
         }
 
         if (lensBridge) {
-          setStatus("LensBridge Camera detected. Select it and click Start selected camera.", "ok");
+          setStatus("iMirror Camera detected. Select it and click Start selected camera.", "ok");
         } else if (cameras.length && cameras.every((camera) => !camera.label)) {
           setStatus(
             "Chrome is hiding camera names. Click Allow this time in the permission popup, then scan again.",
@@ -215,7 +215,7 @@
           );
         } else if (cameras.length) {
           setStatus(
-            "LensBridge Camera was not found. Restart Chrome, keep LensBridge Desktop open, then scan again.",
+            "iMirror Camera was not found. Restart Chrome, keep iMirror Desktop open, then scan again.",
             "warn"
           );
         } else {

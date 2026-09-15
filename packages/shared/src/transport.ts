@@ -17,7 +17,7 @@ export interface TransportHealth {
   signal?: "excellent" | "good" | "fair" | "poor" | "unavailable";
 }
 
-export interface LensBridgeTransport {
+export interface iMirrorTransport {
   id: string;
   name: string;
   type: TransportType;

@@ -1,5 +1,5 @@
 {
-  "name": "@lensbridge/desktop",
+  "name": "@imirror/desktop",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,8 +14,8 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@lensbridge/shared": "workspace:*",
-    "@tauri-apps/api": "^2.2.0",
+    "@imirror/shared": "workspace:*",
+    "@tauri-apps/api": "2.2.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "qrcode": "^1.5.4",
@@ -23,7 +23,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.2.0",
+    "@tauri-apps/cli": "2.2.0",
     "@types/node": "^22.10.2",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^19.0.2",

@@ -22,7 +22,7 @@ export default function App() {
   const [obsOutputOpen, setObsOutputOpen] = useState(false);
 
   useEffect(() => {
-    const title = obsOutputOpen ? OBS_OUTPUT_TITLE : "LensBridge Desktop";
+    const title = obsOutputOpen ? OBS_OUTPUT_TITLE : "iMirror Desktop";
     document.title = title;
 
     async function applyWindowMode() {

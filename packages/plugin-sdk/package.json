@@ -1,5 +1,5 @@
 {
-  "name": "@lensbridge/plugin-sdk",
+  "name": "@imirror/plugin-sdk",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -19,7 +19,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@lensbridge/shared": "workspace:*"
+    "@imirror/shared": "workspace:*"
   },
   "devDependencies": {
     "rimraf": "^6.0.1"

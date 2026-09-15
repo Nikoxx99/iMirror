@@ -1,4 +1,4 @@
-import type { StreamMetrics } from "@lensbridge/shared";
+import type { StreamMetrics } from "@imirror/shared";
 
 export function ConnectionHUD({ status, metrics }: { status: string; metrics: Partial<StreamMetrics> }) {
   return (

@@ -16,7 +16,7 @@ Status:
 
 ## V2 — Windows Camera Bridge + OBS Fallback
 
-Goal: make the phone-to-desktop stream usable as `LensBridge Camera` on Windows, while keeping OBS Output Mode stable as
+Goal: make the phone-to-desktop stream usable as `iMirror Camera` on Windows, while keeping OBS Output Mode stable as
 a fallback.
 
 Implemented/current:

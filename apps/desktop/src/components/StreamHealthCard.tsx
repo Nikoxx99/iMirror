@@ -1,4 +1,4 @@
-import type { StreamMetrics } from "@lensbridge/shared";
+import type { StreamMetrics } from "@imirror/shared";
 import { formatMetric } from "../lib/format";
 
 interface StreamHealthCardProps {

@@ -1,4 +1,6 @@
-use super::source_trait::{baseline_video_capabilities, SourceDescriptor, SourceDriver, SourceStatus};
+use super::source_trait::{
+    baseline_video_capabilities, SourceDescriptor, SourceDriver, SourceStatus,
+};
 
 pub struct ScreenCaptureSource;
 
@@ -14,7 +16,8 @@ impl SourceDriver for ScreenCaptureSource {
             source_type: "screen-capture".into(),
             status: SourceStatus::Planned,
             capabilities,
-            roadmap: "Planned V3 source using browser getDisplayMedia or native capture APIs.".into(),
+            roadmap: "Planned V3 source using browser getDisplayMedia or native capture APIs."
+                .into(),
         }
     }
 

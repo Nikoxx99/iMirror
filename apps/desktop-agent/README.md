@@ -1,4 +1,4 @@
-# LensBridge Desktop Agent
+# iMirror Desktop Agent
 
 This directory is reserved for the future V3 computer-to-computer source agent.
 

@@ -15,5 +15,6 @@ pub struct PairingPayload {
     pub transport: String,
     pub secure: bool,
     pub signaling_url: String,
+    pub desktop_signaling_url: Option<String>,
     pub phone_url: Option<String>,
 }

@@ -1,4 +1,4 @@
-import type { PairingPayload, SignalingEnvelope, SignalingMessage, SignalingRole } from "@lensbridge/shared";
+import type { PairingPayload, SignalingEnvelope, SignalingMessage, SignalingRole } from "@imirror/shared";
 
 type MessageHandler = (message: SignalingMessage, envelope: SignalingEnvelope) => void | Promise<void>;
 
@@ -21,7 +21,7 @@ export class SignalingClient {
       const socket = new WebSocket(url);
       this.socket = socket;
       socket.onopen = () => resolve();
-      socket.onerror = () => reject(new Error("Could not connect to LensBridge Desktop signaling server."));
+      socket.onerror = () => reject(new Error("Could not connect to iMirror Desktop signaling server."));
       socket.onmessage = (event) => {
         const envelope = JSON.parse(String(event.data)) as SignalingEnvelope;
         if (envelope.from === this.role) return;

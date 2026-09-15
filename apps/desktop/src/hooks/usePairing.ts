@@ -1,5 +1,5 @@
-import type { PairingPayload } from "@lensbridge/shared";
-import { encodePairingPayload } from "@lensbridge/shared";
+import type { PairingPayload } from "@imirror/shared";
+import { encodePairingPayload } from "@imirror/shared";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getPairingSession, regeneratePairingSession } from "../lib/api";
 import { createQrDataUrl } from "../lib/qr";
@@ -16,7 +16,7 @@ export function usePairing() {
   const phoneUrl = useMemo(() => {
     if (!session) return null;
     const encoded = encodePairingPayload(session);
-    const url = new URL(session.phoneUrl ?? `http://${session.host}:5174/`);
+    const url = new URL(session.phoneUrl ?? `http://${session.host}:${session.port - 1}/`);
     url.searchParams.set("pairing", encoded);
     url.searchParams.set("quality", preferences.defaultQuality);
     url.searchParams.set("autoReconnect", String(preferences.autoReconnect));
@@ -63,7 +63,9 @@ export function usePairing() {
       setQrDataUrl(null);
       return;
     }
-    void createQrDataUrl(phoneUrl).then(setQrDataUrl).catch(() => setQrDataUrl(null));
+    void createQrDataUrl(phoneUrl)
+      .then(setQrDataUrl)
+      .catch(() => setQrDataUrl(null));
   }, [phoneUrl]);
 
   const expiresInSeconds = session ? Math.max(0, Math.floor((Date.parse(session.expiresAt) - now) / 1000)) : 0;

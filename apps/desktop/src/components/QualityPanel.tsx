@@ -1,4 +1,4 @@
-import { selectableQualityProfiles } from "@lensbridge/shared";
+import { selectableQualityProfiles } from "@imirror/shared";
 import { Card } from "./ui/Card";
 
 export function QualityPanel() {

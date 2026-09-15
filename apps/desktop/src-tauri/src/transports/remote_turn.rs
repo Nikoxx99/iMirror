@@ -6,6 +6,7 @@ pub fn descriptor() -> TransportDescriptor {
         name: "Remote TURN Relay".into(),
         transport_type: "remote-turn".into(),
         status: TransportStatus::Planned,
-        description: "Optional self-hosted relay for future cross-network use. Disabled in V1.".into(),
+        description: "Optional self-hosted relay for future cross-network use. Disabled in V1."
+            .into(),
     }
 }

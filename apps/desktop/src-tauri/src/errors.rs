@@ -3,14 +3,14 @@ use std::{error::Error, fmt};
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct LensBridgeError {
+pub struct IMirrorError {
     pub code: String,
     pub message: String,
     pub technical_detail: Option<String>,
     pub suggested_fix: Option<String>,
 }
 
-impl LensBridgeError {
+impl IMirrorError {
     pub fn new(code: impl Into<String>, message: impl Into<String>) -> Self {
         Self {
             code: code.into(),
@@ -31,12 +31,12 @@ impl LensBridgeError {
     }
 }
 
-impl fmt::Display for LensBridgeError {
+impl fmt::Display for IMirrorError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.code, self.message)
     }
 }
 
-impl Error for LensBridgeError {}
+impl Error for IMirrorError {}
 
-pub type LensBridgeResult<T> = Result<T, LensBridgeError>;
+pub type IMirrorResult<T> = Result<T, IMirrorError>;

@@ -16,7 +16,7 @@ export function browserSupport(): BrowserSupportResult {
     return {
       supported: false,
       title: "Camera blocked on insecure HTTP",
-      reason: `Chrome is hiding camera access because ${currentUrl} is not HTTPS or localhost. The QR code is shown in LensBridge Desktop, not on this phone page. Open the desktop app first, then scan/copy its pairing link from your phone.`
+      reason: `Chrome is hiding camera access because ${currentUrl} is not HTTPS or localhost. The QR code is shown in iMirror Desktop, not on this phone page. Open the desktop app first, then scan/copy its pairing link from your phone.`
     };
   }
 
@@ -24,7 +24,8 @@ export function browserSupport(): BrowserSupportResult {
     return {
       supported: false,
       title: "Camera API unavailable",
-      reason: "This browser does not expose MediaDevices.getUserMedia(). Try a current version of Chrome, Edge, Safari, or Firefox."
+      reason:
+        "This browser does not expose MediaDevices.getUserMedia(). Try a current version of Chrome, Edge, Safari, or Firefox."
     };
   }
 
@@ -32,7 +33,7 @@ export function browserSupport(): BrowserSupportResult {
     return {
       supported: false,
       title: "WebRTC unavailable",
-      reason: "This browser does not support RTCPeerConnection, which LensBridge V1 uses for local streaming."
+      reason: "This browser does not support RTCPeerConnection, which iMirror V1 uses for local streaming."
     };
   }
 

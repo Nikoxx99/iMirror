@@ -1,4 +1,4 @@
-import { selectableQualityProfiles, type QualityProfileId } from "@lensbridge/shared";
+import { selectableQualityProfiles, type QualityProfileId } from "@imirror/shared";
 import { Card } from "./ui/Card";
 import { Select } from "./ui/Select";
 import { Toggle } from "./ui/Toggle";

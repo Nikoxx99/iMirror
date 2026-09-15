@@ -5,7 +5,7 @@ import {
   type QualityProfileId,
   type SignalingMessage,
   type StreamMetrics
-} from "@lensbridge/shared";
+} from "@imirror/shared";
 import { getPhoneDeviceIdentity } from "../pairing/deviceIdentity";
 import { SignalingClient } from "./signalingClient";
 import { readOutboundMetrics, type OutboundMetricsSample } from "./metrics";
@@ -76,7 +76,7 @@ export async function startPhonePeer({
     if (stopped) return;
 
     if (message.type === "hello-ack" && !message.accepted) {
-      const reason = message.reason ?? "LensBridge pairing was rejected.";
+      const reason = message.reason ?? "iMirror pairing was rejected.";
       onError?.(reason);
       onStatus("failed");
       stopPeer(false);
@@ -212,7 +212,8 @@ function applyVideoBandwidthLimit(sdp: string, bitrateKbps: number) {
   const nextMediaLineIndex = lines.findIndex((line, index) => index > videoLineIndex && line.startsWith("m="));
   const insertAt = nextMediaLineIndex === -1 ? lines.length : nextMediaLineIndex;
   const existingBandwidthIndex = lines.findIndex(
-    (line, index) => index > videoLineIndex && index < insertAt && (line.startsWith("b=AS:") || line.startsWith("b=TIAS:"))
+    (line, index) =>
+      index > videoLineIndex && index < insertAt && (line.startsWith("b=AS:") || line.startsWith("b=TIAS:"))
   );
 
   if (existingBandwidthIndex !== -1) {

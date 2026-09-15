@@ -4,7 +4,7 @@ import { Button } from "./ui/Button";
 
 const steps = [
   "Connect phone",
-  "Confirm LensBridge Camera first",
+  "Confirm iMirror Camera first",
   "Open OBS Output if needed",
   "Add Window Capture",
   `Select ${OBS_CAPTURE_WINDOW_LABEL}`,
@@ -22,7 +22,7 @@ export function ObsSetupWizard() {
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Power-user OBS fallback</p>
           <h3 className="mt-1 text-lg font-semibold text-white">Clean window capture path</h3>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
-            Use this path only when a target app will not open LensBridge Camera directly.
+            Use this path only when a target app will not open iMirror Camera directly.
           </p>
         </div>
         <Button variant="secondary" onClick={() => void navigator.clipboard.writeText(OBS_SETUP_STEPS)}>

@@ -1,6 +1,6 @@
 # Code of Conduct
 
-LensBridge follows the spirit of the Contributor Covenant.
+iMirror follows the spirit of the Contributor Covenant.
 
 ## Our Standard
 

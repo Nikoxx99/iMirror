@@ -1,7 +1,7 @@
-import type { LensBridgeTransport } from "@lensbridge/shared";
-import type { LensBridgePlugin } from "./pluginTypes";
+import type { iMirrorTransport } from "@imirror/shared";
+import type { iMirrorPlugin } from "./pluginTypes";
 
-export interface TransportDriverPlugin extends LensBridgePlugin {
+export interface TransportDriverPlugin extends iMirrorPlugin {
   type: "transport-driver";
-  discover(): Promise<LensBridgeTransport[]>;
+  discover(): Promise<iMirrorTransport[]>;
 }

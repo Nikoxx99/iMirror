@@ -1,4 +1,6 @@
-use super::source_trait::{baseline_video_capabilities, SourceDescriptor, SourceDriver, SourceStatus};
+use super::source_trait::{
+    baseline_video_capabilities, SourceDescriptor, SourceDriver, SourceStatus,
+};
 
 pub struct ObsSource;
 
@@ -14,7 +16,9 @@ impl SourceDriver for ObsSource {
             source_type: "obs-source".into(),
             status: SourceStatus::Planned,
             capabilities,
-            roadmap: "Planned V3 integration. OBS Virtual Camera fallback docs are available today.".into(),
+            roadmap:
+                "Planned V3 integration. OBS Virtual Camera fallback docs are available today."
+                    .into(),
         }
     }
 

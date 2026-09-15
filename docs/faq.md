@@ -8,7 +8,7 @@ No. V1 creates a desktop preview. Virtual camera output is V2.
 
 Not by default. V1 has no cloud relay.
 
-## Does LensBridge use Bluetooth for video?
+## Does iMirror use Bluetooth for video?
 
 No. Bluetooth is only a future pairing/signaling idea.
 

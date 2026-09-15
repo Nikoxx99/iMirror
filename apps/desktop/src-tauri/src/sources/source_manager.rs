@@ -1,6 +1,10 @@
 use super::{
-    desktop_webrtc::DesktopWebRtcSource, ip_camera_rtsp::IpCameraRtspSource, obs_source::ObsSource,
-    phone_webrtc::PhoneWebRtcSource, screen_capture::ScreenCaptureSource, source_trait::{SourceDescriptor, SourceDriver},
+    desktop_webrtc::DesktopWebRtcSource,
+    ip_camera_rtsp::IpCameraRtspSource,
+    obs_source::ObsSource,
+    phone_webrtc::PhoneWebRtcSource,
+    screen_capture::ScreenCaptureSource,
+    source_trait::{SourceDescriptor, SourceDriver},
 };
 
 pub struct SourceManager {
@@ -23,6 +27,9 @@ impl Default for SourceManager {
 
 impl SourceManager {
     pub fn list(&self) -> Vec<SourceDescriptor> {
-        self.drivers.iter().map(|driver| driver.descriptor()).collect()
+        self.drivers
+            .iter()
+            .map(|driver| driver.descriptor())
+            .collect()
     }
 }

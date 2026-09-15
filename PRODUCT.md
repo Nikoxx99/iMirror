@@ -12,12 +12,12 @@
 Turn a phone camera into a usable webcam through a local, trustworthy workflow:
 
 ```text
-Phone -> LensBridge Desktop -> LensBridge Camera -> browser/app
+Phone -> iMirror Desktop -> iMirror Camera -> browser/app
 ```
 
 ## Personality
 
-Technical, calm, precise, and elegant. LensBridge should feel like a serious utility, not a generic SaaS dashboard.
+Technical, calm, precise, and elegant. iMirror should feel like a serious utility, not a generic SaaS dashboard.
 
 ## Anti-Goals
 
@@ -30,7 +30,7 @@ Technical, calm, precise, and elegant. LensBridge should feel like a serious uti
 
 ## Current Truth
 
-LensBridge V2 can install an experimental Windows DirectShow camera named `LensBridge Camera` using UnityCapture. The
+iMirror V2 can install an experimental Windows DirectShow camera named `iMirror Camera` using UnityCapture. The
 current frame pump is WebView canvas -> Rust -> UnityCapture shared memory, so it is practical and testable but not the
 final zero-copy native receiver.
 

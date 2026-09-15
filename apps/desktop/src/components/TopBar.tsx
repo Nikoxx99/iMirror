@@ -1,5 +1,5 @@
-import type { ConnectionStatus, StreamMetrics } from "@lensbridge/shared";
-import { statusLabel } from "@lensbridge/shared";
+import type { ConnectionStatus, StreamMetrics } from "@imirror/shared";
+import { statusLabel } from "@imirror/shared";
 import { Badge } from "./ui/Badge";
 import { formatMetric } from "../lib/format";
 import type { PageId } from "./AppShell";

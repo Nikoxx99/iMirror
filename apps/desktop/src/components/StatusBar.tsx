@@ -1,4 +1,4 @@
-import type { ConnectionStatus, StreamMetrics } from "@lensbridge/shared";
+import type { ConnectionStatus, StreamMetrics } from "@imirror/shared";
 import { formatMetric } from "../lib/format";
 
 interface StatusBarProps {

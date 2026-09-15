@@ -1,5 +1,5 @@
-import type { LensBridgePlugin } from "./pluginTypes";
+import type { iMirrorPlugin } from "./pluginTypes";
 
-export function definePlugin<TPlugin extends LensBridgePlugin>(plugin: TPlugin): TPlugin {
+export function definePlugin<TPlugin extends iMirrorPlugin>(plugin: TPlugin): TPlugin {
   return plugin;
 }

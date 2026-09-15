@@ -31,7 +31,7 @@ impl VirtualCameraManager {
     pub fn status(&self) -> VirtualCameraStatus {
         VirtualCameraStatus {
             output_name: if cfg!(target_os = "windows") {
-                "LensBridge Camera".into()
+                "iMirror Camera".into()
             } else {
                 "OBS Virtual Camera".into()
             },
@@ -42,9 +42,9 @@ impl VirtualCameraManager {
                 VirtualDeviceStatus::PreviewOnly
             },
             message: if cfg!(target_os = "windows") {
-                "LensBridge can publish frames to the UnityCapture DirectShow driver when LensBridge Camera is installed and opened by a target app.".into()
+                "iMirror can publish frames to the UnityCapture DirectShow driver when iMirror Camera is installed and opened by a target app.".into()
             } else {
-                "LensBridge provides the live source. OBS Virtual Camera exposes it as a system camera fallback.".into()
+                "iMirror provides the live source. OBS Virtual Camera exposes it as a system camera fallback.".into()
             },
         }
     }
@@ -60,7 +60,9 @@ impl VirtualCameraManager {
             ObsVirtualCameraStatus {
                 detected: false,
                 devices: Vec::new(),
-                message: "Automatic camera-device detection is only implemented for Windows right now.".into(),
+                message:
+                    "Automatic camera-device detection is only implemented for Windows right now."
+                        .into(),
             }
         }
     }
@@ -81,7 +83,13 @@ $devices -join "`n"
 "#;
 
     let output = Command::new("powershell.exe")
-        .args(["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script])
+        .args([
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-Command",
+            script,
+        ])
         .output();
 
     let Ok(output) = output else {

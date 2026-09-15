@@ -1,4 +1,4 @@
-import { getQualityProfile, type QualityProfileId } from "@lensbridge/shared";
+import { getQualityProfile, type QualityProfileId } from "@imirror/shared";
 
 export function constraintsForQuality(
   quality: QualityProfileId,

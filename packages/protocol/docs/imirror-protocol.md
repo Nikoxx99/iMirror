@@ -1,4 +1,4 @@
-# LensBridge Protocol
+# iMirror Protocol
 
 V1 uses a local-only pairing payload plus a WebSocket signaling channel.
 
@@ -8,7 +8,7 @@ The media path is WebRTC peer-to-peer where the browser engine can negotiate it.
 
 ```json
 {
-  "app": "LensBridge",
+  "app": "iMirror",
   "version": "0.1",
   "desktopName": "Abhi-Laptop",
   "host": "192.168.1.20",

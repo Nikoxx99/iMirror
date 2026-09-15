@@ -1,6 +1,6 @@
-# LensBridge Benchmarks
+# iMirror Benchmarks
 
-LensBridge does not claim zero-copy or production-grade frame-pump performance. The current Windows path is:
+iMirror does not claim zero-copy or production-grade frame-pump performance. The current Windows path is:
 
 ```text
 Phone WebRTC -> desktop WebView video -> canvas RGBA readback -> Tauri raw IPC -> Rust -> UnityCapture shared memory -> DirectShow consumer
@@ -27,13 +27,13 @@ The Direct Windows Camera panel in the desktop app now exposes frame-pump counte
 
 ## Required Scenarios
 
-| Scenario | Resolution | Target FPS | Duration | Consumer |
-| --- | ---: | ---: | ---: | --- |
-| `360p24-5m` | 640x360 | 24 | 5 minutes | closed |
-| `540p30-5m` | 960x540 | 30 | 5 minutes | closed |
-| `720p30-10m` | 1280x720 | 30 | 10 minutes | closed |
-| `720p30-10m-consumer-open` | 1280x720 | 30 | 10 minutes | `LensBridge Camera` open |
-| `1080p30-stress` | 1920x1080 | 30 | 5 minutes | open, experimental |
+| Scenario                   | Resolution | Target FPS |   Duration | Consumer              |
+| -------------------------- | ---------: | ---------: | ---------: | --------------------- |
+| `360p24-5m`                |    640x360 |         24 |  5 minutes | closed                |
+| `540p30-5m`                |    960x540 |         30 |  5 minutes | closed                |
+| `720p30-10m`               |   1280x720 |         30 | 10 minutes | closed                |
+| `720p30-10m-consumer-open` |   1280x720 |         30 | 10 minutes | `iMirror Camera` open |
+| `1080p30-stress`           |  1920x1080 |         30 |  5 minutes | open, experimental    |
 
 ## Generate A Result Template
 
@@ -55,7 +55,7 @@ benchmarks/results/frame-pump-template.local.json
 2. Start `pnpm dev:desktop`.
 3. Connect a phone and approve the pairing request.
 4. Select the target quality profile.
-5. For consumer-open scenarios, open `LensBridge Camera` in `TEST-CAMERAS.html`, Chrome, OBS, or another camera app.
+5. For consumer-open scenarios, open `iMirror Camera` in `TEST-CAMERAS.html`, Chrome, OBS, or another camera app.
 6. Let the scenario run for the required duration.
 7. Copy the Direct Windows Camera panel values into the generated JSON:
    - FPS.

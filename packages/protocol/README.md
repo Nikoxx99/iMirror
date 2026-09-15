@@ -1,6 +1,6 @@
-# @lensbridge/protocol
+# @imirror/protocol
 
-This package documents the LensBridge V1 pairing and signaling protocol.
+This package documents the iMirror V1 pairing and signaling protocol.
 
 The protocol is intentionally small:
 

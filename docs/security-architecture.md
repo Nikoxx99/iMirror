@@ -1,6 +1,6 @@
 # Security Architecture
 
-LensBridge is local-first, but local-first does not mean silently trusting every device on the LAN.
+iMirror is local-first, but local-first does not mean silently trusting every device on the LAN.
 
 ## Implemented Pairing Gate
 
@@ -83,4 +83,4 @@ Still limited:
 
 ## Threat Model
 
-LensBridge protects against accidental or opportunistic LAN joins when the QR/link leaks briefly. It does not yet claim hostile-network hardening equivalent to certificate-pinned production software.
+iMirror protects against accidental or opportunistic LAN joins when the QR/link leaks briefly. It does not yet claim hostile-network hardening equivalent to certificate-pinned production software.

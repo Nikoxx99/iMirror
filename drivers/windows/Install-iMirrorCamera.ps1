@@ -1,6 +1,6 @@
 param(
     [string]$DriverPath = $PSScriptRoot,
-    [string]$CameraName = "LensBridge Camera"
+    [string]$CameraName = "iMirror Camera"
 )
 
 $ErrorActionPreference = "Stop"
@@ -26,7 +26,7 @@ function Invoke-RegSvr32 {
     Unblock-DriverDll -DllPath $DllPath
 
     # UnityCapture's upstream installer registers the filter without a DllInstall payload.
-    # The LensBridge friendly name is applied afterward by updating the registered filter names.
+    # The iMirror friendly name is applied afterward by updating the registered filter names.
     $process = Start-Process -FilePath $RegSvr32 -ArgumentList @("/s", "`"$DllPath`"") -Wait -PassThru -WindowStyle Hidden
     if ($process.ExitCode -ne 0) {
         $message = @(
@@ -94,7 +94,7 @@ function Send-DeviceChangeBroadcast {
 using System;
 using System.Runtime.InteropServices;
 
-public static class LensBridgeDeviceBroadcast {
+public static class IMirrorDeviceBroadcast {
     [DllImport("user32.dll", SetLastError = true)]
     public static extern IntPtr SendMessageTimeout(
         IntPtr hWnd,
@@ -108,27 +108,21 @@ public static class LensBridgeDeviceBroadcast {
 "@ -ErrorAction SilentlyContinue
 
     $result = [IntPtr]::Zero
-    [LensBridgeDeviceBroadcast]::SendMessageTimeout([IntPtr]0xffff, 0x0219, [IntPtr]::Zero, [IntPtr]::Zero, 2, 1000, [ref]$result) | Out-Null
+    [IMirrorDeviceBroadcast]::SendMessageTimeout([IntPtr]0xffff, 0x0219, [IntPtr]::Zero, [IntPtr]::Zero, 2, 1000, [ref]$result) | Out-Null
 }
 
-Write-Host "LensBridge Camera driver installation" -ForegroundColor Cyan
+Write-Host "iMirror Camera driver installation" -ForegroundColor Cyan
 Assert-Administrator
 
 $resolvedDriverPath = (Resolve-Path -LiteralPath $DriverPath).Path
 $dll64 = Join-Path $resolvedDriverPath "UnityCaptureFilter64.dll"
-$dll32 = Join-Path $resolvedDriverPath "UnityCaptureFilter32.dll"
 
 Write-Host "Registering 64-bit DirectShow filter as '$CameraName'..."
 Invoke-RegSvr32 -RegSvr32 "$env:SystemRoot\System32\regsvr32.exe" -DllPath $dll64
 
-if ([Environment]::Is64BitOperatingSystem -and (Test-Path -LiteralPath $dll32)) {
-    Write-Host "Registering 32-bit DirectShow filter for legacy apps..."
-    Invoke-RegSvr32 -RegSvr32 "$env:SystemRoot\SysWOW64\regsvr32.exe" -DllPath $dll32
-}
-
 Set-FilterNames -Name $CameraName
 
-$appDataPath = Join-Path $env:APPDATA "LensBridge"
+$appDataPath = Join-Path $env:APPDATA "iMirror"
 New-Item -ItemType Directory -Force -Path $appDataPath | Out-Null
 [pscustomobject]@{
     cameraName = $CameraName
@@ -142,4 +136,4 @@ Send-DeviceChangeBroadcast
 Write-Host ""
 Write-Host "Installation complete." -ForegroundColor Green
 Write-Host "Restart Chrome, then select '$CameraName' from the camera picker."
-Write-Host "Keep LensBridge Desktop running and your phone connected before opening the camera."
+Write-Host "Keep iMirror running and your phone connected before opening the camera."

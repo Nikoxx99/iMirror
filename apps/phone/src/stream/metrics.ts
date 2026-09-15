@@ -1,4 +1,4 @@
-import type { StreamMetrics } from "@lensbridge/shared";
+import type { StreamMetrics } from "@imirror/shared";
 
 export interface OutboundMetricsSample {
   bytesSent: number;
@@ -48,10 +48,7 @@ export async function readOutboundMetrics(
   return { metrics, sample };
 }
 
-function bitrateFromSamples(
-  previousSample: OutboundMetricsSample | null,
-  currentSample: OutboundMetricsSample | null
-) {
+function bitrateFromSamples(previousSample: OutboundMetricsSample | null, currentSample: OutboundMetricsSample | null) {
   if (!previousSample || !currentSample) return undefined;
 
   const elapsedMs = currentSample.timestamp - previousSample.timestamp;

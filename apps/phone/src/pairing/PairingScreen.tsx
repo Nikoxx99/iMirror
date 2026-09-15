@@ -1,4 +1,4 @@
-import type { PairingPayload } from "@lensbridge/shared";
+import type { PairingPayload } from "@imirror/shared";
 import { ShieldCheck } from "lucide-react";
 
 export function PairingScreen({ pairing }: { pairing: PairingPayload }) {
@@ -9,7 +9,7 @@ export function PairingScreen({ pairing }: { pairing: PairingPayload }) {
         <div>
           <p className="text-sm font-medium text-white">Pairing with {pairing.desktopName}</p>
           <p className="mt-1 text-xs leading-5 text-slate-400">
-            Your video stays on your local network. LensBridge does not upload or record this stream.
+            Your video stays on your local network. iMirror does not upload or record this stream.
           </p>
         </div>
       </div>

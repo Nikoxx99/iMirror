@@ -4,7 +4,7 @@ import {
   isQualityProfileId,
   type PairingPayload,
   type QualityProfileId
-} from "@lensbridge/shared";
+} from "@imirror/shared";
 
 export interface ParsePairingResult {
   payload: PairingPayload | null;
@@ -42,14 +42,14 @@ export function parsePairingUrl(search: string): ParsePairingResult {
 
 export function parseManualPayload(input: string): ParsePairingResult {
   const trimmed = input.trim();
-  if (!trimmed) return { payload: null, error: "Paste a LensBridge pairing link or payload." };
+  if (!trimmed) return { payload: null, error: "Paste a iMirror pairing link or payload." };
 
   try {
     if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
       return parsePairingUrl(new URL(trimmed).search);
     }
     const json = JSON.parse(trimmed) as unknown;
-    if (!isPairingPayload(json)) throw new Error("Manual JSON is not a LensBridge pairing payload.");
+    if (!isPairingPayload(json)) throw new Error("Manual JSON is not a iMirror pairing payload.");
     return { payload: json, error: null };
   } catch {
     try {

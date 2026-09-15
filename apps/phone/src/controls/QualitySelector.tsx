@@ -1,4 +1,4 @@
-import { selectableQualityProfiles, type QualityProfileId } from "@lensbridge/shared";
+import { selectableQualityProfiles, type QualityProfileId } from "@imirror/shared";
 
 interface QualitySelectorProps {
   value: QualityProfileId;

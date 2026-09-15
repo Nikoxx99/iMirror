@@ -1,4 +1,4 @@
-# Contributing to LensBridge
+# Contributing to iMirror
 
 Thanks for helping build a local-first camera bridge that people can actually trust.
 
@@ -14,8 +14,8 @@ pnpm check:rust
 Run the apps:
 
 ```bash
-pnpm --filter @lensbridge/phone dev -- --host 0.0.0.0
-pnpm --filter @lensbridge/desktop tauri dev
+pnpm --filter @imirror/phone dev -- --host 0.0.0.0
+pnpm --filter @imirror/desktop tauri dev
 ```
 
 ## Where To Start

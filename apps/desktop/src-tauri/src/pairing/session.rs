@@ -14,12 +14,20 @@ pub struct SessionManager {
     desktop_name: String,
     host: String,
     port: u16,
+    desktop_signaling_port: u16,
+    bootstrap_port: u16,
     ttl: Duration,
     current: RwLock<PairingSession>,
 }
 
 impl SessionManager {
-    pub fn new(desktop_name: String, host: String, port: u16) -> Self {
+    pub fn new(
+        desktop_name: String,
+        host: String,
+        port: u16,
+        desktop_signaling_port: u16,
+        bootstrap_port: u16,
+    ) -> Self {
         let ttl = Duration::minutes(10);
         let current = RwLock::new(Self::new_session(ttl));
 
@@ -27,6 +35,8 @@ impl SessionManager {
             desktop_name,
             host,
             port,
+            desktop_signaling_port,
+            bootstrap_port,
             ttl,
             current,
         }
@@ -40,19 +50,33 @@ impl SessionManager {
         self.current
             .read()
             .expect("session lock poisoned")
-            .to_payload(&self.desktop_name, &self.host, self.port)
+            .to_payload(
+                &self.desktop_name,
+                &self.host,
+                self.port,
+                self.desktop_signaling_port,
+                self.bootstrap_port,
+            )
     }
 
     pub fn regenerate(&self) -> PairingPayload {
         let next = Self::new_session(self.ttl);
-        let payload = next.to_payload(&self.desktop_name, &self.host, self.port);
+        let payload = next.to_payload(
+            &self.desktop_name,
+            &self.host,
+            self.port,
+            self.desktop_signaling_port,
+            self.bootstrap_port,
+        );
         *self.current.write().expect("session lock poisoned") = next;
         payload
     }
 
     pub fn validate(&self, session_id: &str, token: &str) -> bool {
         let current = self.current.read().expect("session lock poisoned");
-        current.session_id == session_id && current.token == token && current.expires_at > Utc::now()
+        current.session_id == session_id
+            && current.token == token
+            && current.expires_at > Utc::now()
     }
 
     pub fn clear_active_device(&self) {
@@ -66,7 +90,8 @@ impl SessionManager {
         self.current
             .read()
             .expect("session lock poisoned")
-            .expires_at <= Utc::now()
+            .expires_at
+            <= Utc::now()
     }
 
     fn new_session(ttl: Duration) -> PairingSession {
@@ -80,9 +105,16 @@ impl SessionManager {
 }
 
 impl PairingSession {
-    fn to_payload(&self, desktop_name: &str, host: &str, port: u16) -> PairingPayload {
+    fn to_payload(
+        &self,
+        desktop_name: &str,
+        host: &str,
+        port: u16,
+        desktop_signaling_port: u16,
+        bootstrap_port: u16,
+    ) -> PairingPayload {
         PairingPayload {
-            app: "LensBridge".to_string(),
+            app: "iMirror".to_string(),
             version: "0.1".to_string(),
             desktop_name: desktop_name.to_string(),
             host: host.to_string(),
@@ -91,9 +123,10 @@ impl PairingSession {
             token: self.token.clone(),
             expires_at: self.expires_at,
             transport: "wifi-webrtc".to_string(),
-            secure: false,
-            signaling_url: format!("ws://{host}:{port}/signal"),
-            phone_url: None,
+            secure: true,
+            signaling_url: format!("wss://{host}:{port}/signal"),
+            desktop_signaling_url: Some(format!("ws://127.0.0.1:{desktop_signaling_port}/signal")),
+            phone_url: Some(format!("http://{host}:{bootstrap_port}/")),
         }
     }
 }
@@ -104,14 +137,14 @@ mod tests {
 
     #[test]
     fn validates_current_session() {
-        let manager = SessionManager::new("dev".into(), "127.0.0.1".into(), 48173);
+        let manager = SessionManager::new("dev".into(), "127.0.0.1".into(), 48173, 48174, 48172);
         let payload = manager.current_payload();
         assert!(manager.validate(&payload.session_id, &payload.token));
     }
 
     #[test]
     fn rejects_wrong_token() {
-        let manager = SessionManager::new("dev".into(), "127.0.0.1".into(), 48173);
+        let manager = SessionManager::new("dev".into(), "127.0.0.1".into(), 48173, 48174, 48172);
         let payload = manager.current_payload();
         assert!(!manager.validate(&payload.session_id, "wrong"));
     }

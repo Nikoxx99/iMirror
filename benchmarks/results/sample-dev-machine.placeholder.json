@@ -32,7 +32,7 @@
       "averageRustWriteMs": null,
       "directShowConsumerOpen": true,
       "obsFallback": false,
-      "notes": "Schema example only. Do not treat this as a real LensBridge performance result."
+      "notes": "Schema example only. Do not treat this as a real iMirror performance result."
     }
   }
 ]

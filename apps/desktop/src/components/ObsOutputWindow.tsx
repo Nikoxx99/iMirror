@@ -51,7 +51,7 @@ export function ObsOutputWindow({ stream, onExit }: ObsOutputWindowProps) {
       onMouseMove={revealControls}
       onClick={revealControls}
     >
-      <section className="obs-output-stage" aria-label="LensBridge OBS output">
+      <section className="obs-output-stage" aria-label="iMirror OBS output">
         {stream ? (
           <video
             ref={videoRef}

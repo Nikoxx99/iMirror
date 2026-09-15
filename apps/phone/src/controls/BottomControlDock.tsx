@@ -1,4 +1,4 @@
-import type { QualityProfileId } from "@lensbridge/shared";
+import type { QualityProfileId } from "@imirror/shared";
 import type { UseCameraResult } from "../camera/useCamera";
 import { CameraControls } from "./CameraControls";
 import { QualitySelector } from "./QualitySelector";

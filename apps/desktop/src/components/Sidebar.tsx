@@ -22,7 +22,7 @@ export function Sidebar({ active, onNavigate }: SidebarProps) {
       <div className="mb-7 px-2">
         <div className="flex items-center gap-2 text-sm font-semibold tracking-wide text-white">
           <Camera className="h-4 w-4 text-brand" />
-          LensBridge
+          iMirror
         </div>
         <div>
           <div className="mt-1 text-xs text-slate-500">Direct camera bridge</div>

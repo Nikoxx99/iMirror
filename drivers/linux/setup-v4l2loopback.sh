@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DEVICE_NAME="LensBridge Cam"
+DEVICE_NAME="iMirror Cam"
 
 if [[ "$(uname -s)" != "Linux" ]]; then
   echo "This setup script is only for Linux."
@@ -31,4 +31,4 @@ fi
 echo "Virtual camera device list:"
 v4l2-ctl --list-devices || true
 echo
-echo "LensBridge does not pipe frames into this Linux device yet. FFmpeg/GStreamer output is future work."
+echo "iMirror does not pipe frames into this Linux device yet. FFmpeg/GStreamer output is future work."

@@ -1,9 +1,9 @@
 {
-  "name": "lensbridge",
+  "name": "imirror",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Open-source local-first universal camera bridge.",
+  "description": "Turn an iPhone or Android phone into a private Windows 11 webcam over local Wi-Fi.",
   "packageManager": "pnpm@11.3.0",
   "scripts": {
     "dev": "turbo dev --parallel",
@@ -14,14 +14,15 @@
     "format": "prettier --write .",
     "benchmark:frame-pump": "node --experimental-strip-types scripts/benchmark-frame-pump.ts",
     "clean": "turbo clean",
-    "dev:phone": "pnpm --filter @lensbridge/phone dev",
-    "dev:desktop": "pnpm --filter @lensbridge/desktop tauri dev",
-    "build:phone": "pnpm --filter @lensbridge/phone build",
-    "build:desktop": "pnpm --filter @lensbridge/desktop build",
+    "dev:phone": "pnpm --filter @imirror/phone dev",
+    "dev:desktop": "pnpm --filter @imirror/desktop tauri dev",
+    "build:phone": "pnpm --filter @imirror/phone build",
+    "build:desktop": "pnpm --filter @imirror/desktop build",
+    "package:windows": "pnpm --filter @imirror/desktop tauri build --bundles nsis",
     "check:rust": "cd apps/desktop/src-tauri && cargo check",
     "test:rust": "cd apps/desktop/src-tauri && cargo test",
-    "install:windows-camera": "powershell -ExecutionPolicy Bypass -File drivers/windows/Install-LensBridgeCamera.ps1",
-    "uninstall:windows-camera": "powershell -ExecutionPolicy Bypass -File drivers/windows/Uninstall-LensBridgeCamera.ps1"
+    "install:windows-camera": "powershell -ExecutionPolicy Bypass -File drivers/windows/Install-iMirrorCamera.ps1",
+    "uninstall:windows-camera": "powershell -ExecutionPolicy Bypass -File drivers/windows/Uninstall-iMirrorCamera.ps1"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

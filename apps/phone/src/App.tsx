@@ -1,4 +1,4 @@
-import type { PairingPayload, QualityProfileId } from "@lensbridge/shared";
+import type { PairingPayload, QualityProfileId } from "@imirror/shared";
 import { useMemo, useState } from "react";
 import { useCamera } from "./camera/useCamera";
 import {

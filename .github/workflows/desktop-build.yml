@@ -9,10 +9,7 @@ on:
 
 jobs:
   desktop:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -24,5 +21,6 @@ jobs:
           cache: pnpm
       - uses: dtolnay/rust-toolchain@stable
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @lensbridge/desktop build
+      - run: pnpm --filter @imirror/phone build
+      - run: pnpm --filter @imirror/desktop build
       - run: pnpm check:rust

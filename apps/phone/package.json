@@ -1,5 +1,5 @@
 {
-  "name": "@lensbridge/phone",
+  "name": "@imirror/phone",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@lensbridge/shared": "workspace:*",
+    "@imirror/shared": "workspace:*",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "react": "^19.0.0",

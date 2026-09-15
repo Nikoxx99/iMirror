@@ -40,7 +40,7 @@ const INITIAL_STATE: DirectCameraBridgeState = {
   lastFrameSendMs: 0,
   rustFrameWriteMs: 0,
   resolution: `${TARGET_WIDTH}x${TARGET_HEIGHT}`,
-  message: "Connect your phone, then select LensBridge Camera in Chrome or another app.",
+  message: "Connect your phone, then select iMirror Camera in Chrome or another app.",
   skippedFrame: false
 };
 
@@ -87,7 +87,7 @@ export function useUnityCaptureBridge(stream: MediaStream | null, mirror: boolea
       setState((current) => ({
         ...current,
         status: "error",
-        message: "Could not create the frame canvas for LensBridge Camera."
+        message: "Could not create the frame canvas for iMirror Camera."
       }));
       return undefined;
     }
@@ -215,7 +215,7 @@ export function useUnityCaptureBridge(stream: MediaStream | null, mirror: boolea
             ...current,
             status: "error",
             fps: 0,
-            message: error instanceof Error ? error.message : "LensBridge Camera frame bridge failed."
+            message: error instanceof Error ? error.message : "iMirror Camera frame bridge failed."
           }));
           scheduleTransport(WAITING_INTERVAL_MS);
         }
@@ -268,7 +268,7 @@ export function useUnityCaptureBridge(stream: MediaStream | null, mirror: boolea
       ...current,
       status: "waitingForTarget",
       resolution: `${TARGET_WIDTH}x${TARGET_HEIGHT}`,
-      message: "Phone stream is ready. Select LensBridge Camera in the target app to start the direct bridge."
+      message: "Phone stream is ready. Select iMirror Camera in the target app to start the direct bridge."
     }));
     scheduleCapture();
     scheduleTransport(250);

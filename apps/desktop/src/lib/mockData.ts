@@ -1,7 +1,7 @@
-import type { LensBridgeSource } from "@lensbridge/shared";
-import { defaultPhoneCapabilities } from "@lensbridge/shared";
+import type { iMirrorSource } from "@imirror/shared";
+import { defaultPhoneCapabilities } from "@imirror/shared";
 
-export const mockSources: LensBridgeSource[] = [
+export const mockSources: iMirrorSource[] = [
   {
     id: "phone-webrtc",
     name: "Phone Camera",
@@ -23,7 +23,13 @@ export const mockSources: LensBridgeSource[] = [
     name: "IP Camera",
     type: "ip-camera-rtsp",
     status: "planned",
-    capabilities: { ...defaultPhoneCapabilities, supportsFocus: false, supportsZoom: false, supportsTorch: false, supportsPTZ: true },
+    capabilities: {
+      ...defaultPhoneCapabilities,
+      supportsFocus: false,
+      supportsZoom: false,
+      supportsTorch: false,
+      supportsPTZ: true
+    },
     roadmap: "Planned V3 RTSP/ONVIF ingest. Not active in V1."
   },
   {

@@ -1,4 +1,4 @@
-import { definePlugin } from "@lensbridge/plugin-sdk";
+import { definePlugin } from "@imirror/plugin-sdk";
 
 export default definePlugin({
   name: "example-grayscale-filter",

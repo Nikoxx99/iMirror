@@ -14,7 +14,7 @@ export function OutputModeSelector({ streamReady, onOpenObsOutput }: OutputModeS
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Power-user OBS fallback</p>
           <h3 className="mt-1 text-lg font-semibold text-white">Capture-safe surface</h3>
           <p className="mt-1 max-w-xl text-sm leading-6 text-slate-400">
-            Use this only when you need OBS. The direct LensBridge Camera path is the primary Windows output.
+            Use this only when you need OBS. The direct iMirror Camera path is the primary Windows output.
           </p>
         </div>
         <Button onClick={onOpenObsOutput} disabled={!streamReady}>

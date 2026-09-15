@@ -1,4 +1,4 @@
-import type { PairingApprovalRequest, PairingPayload } from "@lensbridge/shared";
+import type { PairingApprovalRequest, PairingPayload } from "@imirror/shared";
 import { CheckCircle2, Copy, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
 import { Button } from "./ui/Button";
 import { Card } from "./ui/Card";
@@ -37,7 +37,7 @@ export function PairingCard({
       <QRPairingPanel qrDataUrl={qrDataUrl} loading={loading} />
       <div className="flex flex-col justify-center">
         <p className="text-xs font-semibold uppercase tracking-wide text-brand">Pair phone</p>
-        <h2 className="mt-2 text-2xl font-semibold text-white">Scan once. Use the phone as LensBridge Camera.</h2>
+        <h2 className="mt-2 text-2xl font-semibold text-white">Scan once. Use the phone as iMirror Camera.</h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
           Open the phone page, scan this code, and allow camera access. The QR link expires for safety, but an active
           camera stream is not limited to the countdown.
@@ -71,9 +71,7 @@ export function PairingCard({
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-brand">Pairing request</p>
                 <h3 className="mt-1 text-lg font-semibold text-white">{pendingRequest.deviceName}</h3>
-                <p className="mt-1 text-sm text-slate-300">
-                  Match this code with the phone screen before approving:
-                </p>
+                <p className="mt-1 text-sm text-slate-300">Match this code with the phone screen before approving:</p>
               </div>
               <div className="font-mono text-2xl font-semibold tracking-[0.25em] text-white">
                 {pendingRequest.pairingCode}

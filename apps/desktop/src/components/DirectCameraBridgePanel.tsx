@@ -1,5 +1,7 @@
-import { AlertTriangle, CheckCircle2, Copy, Radio, Video } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Copy, Download, Radio, Trash2, Video } from "lucide-react";
+import { useState } from "react";
 import type { DirectCameraBridgeState } from "../hooks/useUnityCaptureBridge";
+import { installWindowsCamera, uninstallWindowsCamera } from "../lib/api";
 import { Button } from "./ui/Button";
 
 interface DirectCameraBridgePanelProps {
@@ -7,14 +9,28 @@ interface DirectCameraBridgePanelProps {
   compact?: boolean;
 }
 
-const INSTALL_COMMAND = "pnpm install:windows-camera";
 const TEST_STEPS =
-  "1. Run pnpm install:windows-camera as Administrator.\n2. Start LensBridge Desktop and connect your phone.\n3. Open TEST-CAMERAS.html in Chrome.\n4. Select LensBridge Camera.\n5. The phone feed should appear in Chrome.";
+  "1. Install iMirror Camera from the app.\n2. Connect your phone.\n3. Restart the target app.\n4. Select iMirror Camera.\n5. The phone feed should appear.";
 
 export function DirectCameraBridgePanel({ bridge, compact = false }: DirectCameraBridgePanelProps) {
+  const [driverBusy, setDriverBusy] = useState(false);
+  const [driverMessage, setDriverMessage] = useState<string | null>(null);
   const isStreaming = bridge.status === "streaming";
   const isWaiting = bridge.status === "waitingForTarget";
   const isError = bridge.status === "error";
+
+  async function runDriverAction(action: "install" | "remove") {
+    setDriverBusy(true);
+    setDriverMessage(null);
+    try {
+      const result = action === "install" ? await installWindowsCamera() : await uninstallWindowsCamera();
+      setDriverMessage(result.message);
+    } catch (error) {
+      setDriverMessage(error instanceof Error ? error.message : "The camera driver action failed.");
+    } finally {
+      setDriverBusy(false);
+    }
+  }
 
   return (
     <section className="border border-line bg-panel p-4">
@@ -25,11 +41,11 @@ export function DirectCameraBridgePanel({ bridge, compact = false }: DirectCamer
           </div>
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-wide text-brand">Direct Windows camera</p>
-            <h3 className="mt-1 text-lg font-semibold text-white">LensBridge Camera</h3>
+            <h3 className="mt-1 text-lg font-semibold text-white">iMirror Camera</h3>
             <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-400">
               {compact
-                ? "DirectShow output. Open LensBridge Camera in Chrome or OBS to receive frames."
-                : "No OBS required. When an app opens LensBridge Camera, LensBridge writes the live phone stream into the Windows DirectShow device."}
+                ? "DirectShow output. Open iMirror Camera in Chrome or OBS to receive frames."
+                : "No OBS required. When an app opens iMirror Camera, iMirror writes the live phone stream into the Windows DirectShow device."}
             </p>
           </div>
         </div>
@@ -53,16 +69,23 @@ export function DirectCameraBridgePanel({ bridge, compact = false }: DirectCamer
       </div>
 
       {!compact || isWaiting || isError ? (
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Button variant="secondary" onClick={() => void navigator.clipboard.writeText(INSTALL_COMMAND)}>
-            <Copy className="h-4 w-4" />
-            Copy driver install
-          </Button>
-          <Button variant="secondary" onClick={() => void navigator.clipboard.writeText(TEST_STEPS)}>
-            <Copy className="h-4 w-4" />
-            Copy test steps
-          </Button>
-        </div>
+        <>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Button variant="primary" disabled={driverBusy} onClick={() => void runDriverAction("install")}>
+              <Download className="h-4 w-4" />
+              {driverBusy ? "Waiting for Windows…" : "Install iMirror Camera"}
+            </Button>
+            <Button variant="secondary" disabled={driverBusy} onClick={() => void runDriverAction("remove")}>
+              <Trash2 className="h-4 w-4" />
+              Remove camera
+            </Button>
+            <Button variant="secondary" onClick={() => void navigator.clipboard.writeText(TEST_STEPS)}>
+              <Copy className="h-4 w-4" />
+              Copy test steps
+            </Button>
+          </div>
+          {driverMessage ? <p className="mt-3 text-sm text-slate-300">{driverMessage}</p> : null}
+        </>
       ) : null}
     </section>
   );

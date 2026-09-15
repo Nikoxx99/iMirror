@@ -6,7 +6,7 @@ import {
   type SignalingEnvelope,
   type SignalingMessage,
   type StreamMetrics
-} from "@lensbridge/shared";
+} from "@imirror/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { isTrustedDevice, markTrustedDeviceSeen, recordSecurityAuditEvent, trustDevice } from "../lib/api";
 
@@ -152,7 +152,7 @@ export function useDesktopReceiver(session: PairingPayload | null) {
           role: "desktop",
           sessionId: session.sessionId,
           token: session.token,
-          deviceName: "LensBridge Desktop"
+          deviceName: "iMirror Desktop"
         });
       };
 
@@ -169,7 +169,11 @@ export function useDesktopReceiver(session: PairingPayload | null) {
           if (message.type === "hello" && message.role === "phone") {
             const deviceId = message.deviceId;
             if (!deviceId) {
-              send({ type: "pairing-rejected", sessionId: session.sessionId, reason: "Phone did not send a device ID." });
+              send({
+                type: "pairing-rejected",
+                sessionId: session.sessionId,
+                reason: "Phone did not send a device ID."
+              });
               return;
             }
 
@@ -275,7 +279,7 @@ export function useDesktopReceiver(session: PairingPayload | null) {
 
         if (!opened) {
           setError(
-            "Desktop signaling socket failed. Start LensBridge with pnpm dev:desktop so the local server runs with the Tauri app."
+            "Desktop signaling socket failed. Start iMirror with pnpm dev:desktop so the local server runs with the Tauri app."
           );
           setStatus("failed");
           return;
@@ -451,12 +455,8 @@ function isApprovedDeviceMessage(messageDeviceId: string | undefined, approvedDe
 }
 
 function desktopSignalingUrl(session: PairingPayload) {
-  const url = new URL(session.signalingUrl);
-
-  if ("__TAURI_INTERNALS__" in window) {
-    url.hostname = "127.0.0.1";
-    url.port = String(session.port);
+  if ("__TAURI_INTERNALS__" in window && session.desktopSignalingUrl) {
+    return new URL(session.desktopSignalingUrl);
   }
-
-  return url;
+  return new URL(session.signalingUrl);
 }

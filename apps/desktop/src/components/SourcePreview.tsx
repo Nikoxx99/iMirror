@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { StreamMetrics } from "@lensbridge/shared";
+import type { StreamMetrics } from "@imirror/shared";
 import { FlipHorizontal2, MonitorPlay, VideoOff } from "lucide-react";
 import { formatMetric } from "../lib/format";
 

@@ -26,12 +26,14 @@ const WEBVIEW_BROWSER_ARGS: &str = "--disable-features=msWebOOUI,msPdfOOUI,msSma
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            let state = AppState::new();
+            let state = AppState::new().map_err(|error| {
+                std::io::Error::new(std::io::ErrorKind::Other, error.to_string())
+            })?;
             state.start_signaling_server();
             app.manage(state);
 
             let window = WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
-                .title("LensBridge Desktop")
+                .title("iMirror Desktop")
                 .inner_size(1180.0, 760.0)
                 .min_inner_size(960.0, 640.0)
                 .resizable(true)
@@ -44,7 +46,7 @@ fn main() {
 
             window.show()?;
             window.set_focus()?;
-            window.set_title("LensBridge Desktop")?;
+            window.set_title("iMirror Desktop")?;
 
             Ok(())
         })
@@ -65,10 +67,12 @@ fn main() {
             commands::get_obs_virtual_camera_status,
             commands::publish_unity_capture_frame,
             commands::publish_unity_capture_frame_binary,
-            commands::reset_unity_capture_bridge
+            commands::reset_unity_capture_bridge,
+            commands::install_windows_camera,
+            commands::uninstall_windows_camera
         ])
         .run(tauri::generate_context!())
-        .expect("failed to run LensBridge Desktop");
+        .expect("failed to run iMirror Desktop");
 }
 
 #[cfg(target_os = "windows")]

@@ -4,7 +4,7 @@ pub struct LinuxV4l2Loopback;
 
 impl VirtualDevice for LinuxV4l2Loopback {
     fn name(&self) -> &'static str {
-        "LensBridge Cam"
+        "iMirror Cam"
     }
 
     fn status(&self) -> VirtualDeviceStatus {

@@ -1,4 +1,6 @@
-use super::source_trait::{baseline_video_capabilities, SourceDescriptor, SourceDriver, SourceStatus};
+use super::source_trait::{
+    baseline_video_capabilities, SourceDescriptor, SourceDriver, SourceStatus,
+};
 
 pub struct DesktopWebRtcSource;
 

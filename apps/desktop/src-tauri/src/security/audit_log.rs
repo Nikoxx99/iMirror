@@ -1,4 +1,4 @@
-use crate::errors::{LensBridgeError, LensBridgeResult};
+use crate::errors::{IMirrorError, IMirrorResult};
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -60,7 +60,7 @@ impl SecurityAuditLog {
         device_id: Option<String>,
         label: Option<String>,
         message: impl Into<String>,
-    ) -> LensBridgeResult<SecurityAuditEvent> {
+    ) -> IMirrorResult<SecurityAuditEvent> {
         let now = Utc::now().to_rfc3339();
         let event = SecurityAuditEvent {
             id: format!(
@@ -95,12 +95,12 @@ fn load_events(path: &Path) -> Vec<SecurityAuditEvent> {
         .unwrap_or_default()
 }
 
-fn save_events(path: &Path, events: &[SecurityAuditEvent]) -> LensBridgeResult<()> {
+fn save_events(path: &Path, events: &[SecurityAuditEvent]) -> IMirrorResult<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|err| {
-            LensBridgeError::new(
+            IMirrorError::new(
                 "security_audit_write_failed",
-                "Could not create LensBridge security data directory.",
+                "Could not create iMirror security data directory.",
             )
             .with_detail(err.to_string())
         })?;
@@ -110,7 +110,7 @@ fn save_events(path: &Path, events: &[SecurityAuditEvent]) -> LensBridgeResult<(
         events: events.to_vec(),
     })
     .map_err(|err| {
-        LensBridgeError::new(
+        IMirrorError::new(
             "security_audit_serialize_failed",
             "Could not serialize security audit events.",
         )
@@ -118,7 +118,7 @@ fn save_events(path: &Path, events: &[SecurityAuditEvent]) -> LensBridgeResult<(
     })?;
 
     fs::write(path, body).map_err(|err| {
-        LensBridgeError::new(
+        IMirrorError::new(
             "security_audit_write_failed",
             "Could not write security audit log.",
         )
@@ -133,7 +133,7 @@ mod tests {
     #[test]
     fn records_and_reloads_security_events() {
         let path = std::env::temp_dir().join(format!(
-            "lensbridge-audit-{}.json",
+            "imirror-audit-{}.json",
             Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         let log = SecurityAuditLog::with_path(path.clone());

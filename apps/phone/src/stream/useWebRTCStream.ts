@@ -1,4 +1,4 @@
-import type { PairingPayload, QualityProfileId, StreamMetrics } from "@lensbridge/shared";
+import type { PairingPayload, QualityProfileId, StreamMetrics } from "@imirror/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { nextReconnectDelay } from "./reconnect";
 import { startPhonePeer, type PhonePeer } from "./webrtc";

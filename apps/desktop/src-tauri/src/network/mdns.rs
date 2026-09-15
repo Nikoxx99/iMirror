@@ -6,7 +6,7 @@ pub struct MdnsAdvertiser {
 impl MdnsAdvertiser {
     pub fn planned() -> Self {
         Self {
-            service_name: "_lensbridge._tcp.local".to_string(),
+            service_name: "_imirror._tcp.local".to_string(),
         }
     }
 

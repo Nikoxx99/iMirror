@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { encodePairingPayload, type PairingPayload } from "@lensbridge/shared";
+import { encodePairingPayload, type PairingPayload } from "@imirror/shared";
 import { parseAutoReconnectFromLocation, parsePairingUrl, parseQualityFromLocation } from "./parsePairingUrl";
 
 const payload: PairingPayload = {
-  app: "LensBridge",
+  app: "iMirror",
   version: "0.1",
   desktopName: "dev",
   host: "127.0.0.1",

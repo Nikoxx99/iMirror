@@ -1,4 +1,4 @@
-import type { QualityProfileId } from "@lensbridge/shared";
+import type { QualityProfileId } from "@imirror/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { constraintsForQuality } from "./constraints";
 import { cameraErrorMessage } from "./cameraErrors";

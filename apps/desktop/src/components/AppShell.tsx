@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import type { ConnectionStatus, StreamMetrics } from "@lensbridge/shared";
+import type { ConnectionStatus, StreamMetrics } from "@imirror/shared";
 import { Sidebar } from "./Sidebar";
 import { TopBar } from "./TopBar";
 import { StatusBar } from "./StatusBar";

@@ -5,7 +5,7 @@ describe("shared validators", () => {
   it("accepts a valid pairing payload", () => {
     expect(
       isPairingPayload({
-        app: "LensBridge",
+        app: "iMirror",
         version: "0.1",
         desktopName: "dev",
         host: "127.0.0.1",
@@ -20,7 +20,7 @@ describe("shared validators", () => {
     ).toBe(true);
   });
 
-  it("rejects non LensBridge payloads", () => {
+  it("rejects non iMirror payloads", () => {
     expect(isPairingPayload({ app: "Other" })).toBe(false);
   });
 

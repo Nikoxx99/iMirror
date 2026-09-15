@@ -1,4 +1,4 @@
-import type { PairingPayload, SecurityAuditEvent, TrustedDeviceRecord } from "@lensbridge/shared";
+import type { PairingPayload, SecurityAuditEvent, TrustedDeviceRecord } from "@imirror/shared";
 import { ShieldAlert, ShieldCheck, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card } from "./ui/Card";
@@ -44,7 +44,11 @@ export function SecurityPanel({ session }: SecurityPanelProps) {
         <SecurityRow label="Cloud relay" value="Disabled" />
         <SecurityRow label="Media encryption" value="WebRTC DTLS-SRTP" />
         <SecurityRow label="Pairing approval" value="Required for unknown devices" />
-        <SecurityRow label="Transport mode" value={session?.secure ? "HTTPS/WSS configured" : "Dev HTTP/WS"} warning={!session?.secure} />
+        <SecurityRow
+          label="Transport mode"
+          value={session?.secure ? "HTTPS/WSS configured" : "Dev HTTP/WS"}
+          warning={!session?.secure}
+        />
         <SecurityRow label="Session expires" value={session ? formatDateTime(session.expiresAt) : "No session"} />
       </div>
 
@@ -60,7 +64,10 @@ export function SecurityPanel({ session }: SecurityPanelProps) {
         <div className="mt-3 grid gap-2">
           {trustedDevices.length ? (
             trustedDevices.map((device) => (
-              <div key={device.deviceId} className="flex flex-wrap items-center justify-between gap-3 border border-line bg-white/[0.025] p-3">
+              <div
+                key={device.deviceId}
+                className="flex flex-wrap items-center justify-between gap-3 border border-line bg-white/[0.025] p-3"
+              >
                 <div>
                   <div className="font-medium text-white">{device.label}</div>
                   <div className="mt-1 text-xs text-slate-400">

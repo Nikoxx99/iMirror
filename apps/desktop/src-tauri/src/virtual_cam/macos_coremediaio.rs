@@ -4,7 +4,7 @@ pub struct MacosCoreMediaIo;
 
 impl VirtualDevice for MacosCoreMediaIo {
     fn name(&self) -> &'static str {
-        "LensBridge Cam for macOS"
+        "iMirror Cam for macOS"
     }
 
     fn status(&self) -> VirtualDeviceStatus {

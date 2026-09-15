@@ -1,4 +1,4 @@
-import type { ConnectionStatus } from "@lensbridge/shared";
+import type { ConnectionStatus } from "@imirror/shared";
 import { CheckCircle2, CircleDashed } from "lucide-react";
 
 interface ConnectedSourceCardProps {
@@ -10,7 +10,7 @@ export function ConnectedSourceCard({ status, streamReady }: ConnectedSourceCard
   const items = [
     { label: "Phone connected", active: status === "connected" || streamReady },
     { label: "Preview active", active: streamReady },
-    { label: "LensBridge Camera ready", active: streamReady }
+    { label: "iMirror Camera ready", active: streamReady }
   ];
 
   return (

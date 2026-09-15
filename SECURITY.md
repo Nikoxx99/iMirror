@@ -1,6 +1,6 @@
 # Security Policy
 
-LensBridge is local-first by design.
+iMirror is local-first by design.
 
 ## Current Model
 

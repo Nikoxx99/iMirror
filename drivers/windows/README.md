@@ -1,15 +1,15 @@
 # Windows Camera Driver
 
-LensBridge V2 includes an experimental DirectShow camera path for Windows.
+iMirror V2 includes an experimental DirectShow camera path for Windows.
 
 What is included:
 
 - `UnityCaptureFilter64.dll` and `UnityCaptureFilter32.dll`
-- `Install-LensBridgeCamera.ps1`
-- `Uninstall-LensBridgeCamera.ps1`
+- `Install-iMirrorCamera.ps1`
+- `Uninstall-iMirrorCamera.ps1`
 - A Tauri/Rust shared-memory frame publisher in the desktop app
 
-The driver registers as `LensBridge Camera`. When Chrome, OBS, Zoom, or another app opens that camera, LensBridge Desktop writes the connected phone stream into UnityCapture shared memory.
+The driver registers as `iMirror Camera`. When Chrome, OBS, Zoom, or another app opens that camera, iMirror Desktop writes the connected phone stream into UnityCapture shared memory.
 
 ## Install
 
@@ -23,19 +23,19 @@ Then restart Chrome or any app that had its camera picker open.
 
 The installer automatically removes Windows downloaded-file blocks from the bundled DLLs before registration. It
 registers the UnityCapture filters with plain `regsvr32`, then renames the registered DirectShow entries to
-`LensBridge Camera`. If `regsvr32` still fails, make sure this repo is fully synced locally in OneDrive and run the
+`iMirror Camera`. If `regsvr32` still fails, make sure this repo is fully synced locally in OneDrive and run the
 command again from an Administrator PowerShell window.
 
 ## Test
 
-1. Start LensBridge Desktop.
+1. Start iMirror Desktop.
 2. Connect your phone.
 3. Open `TEST-CAMERAS.html` in Chrome.
 4. Click `Scan cameras`.
-5. Select `LensBridge Camera`.
+5. Select `iMirror Camera`.
 6. Click `Start selected camera`.
 
-The LensBridge app status should move from `Waiting` to `Streaming`.
+The iMirror app status should move from `Waiting` to `Streaming`.
 
 ## Uninstall
 

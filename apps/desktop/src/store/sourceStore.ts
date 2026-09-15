@@ -1,7 +1,7 @@
-import type { LensBridgeSource } from "@lensbridge/shared";
+import type { iMirrorSource } from "@imirror/shared";
 
 export interface SourceStoreSnapshot {
-  sources: LensBridgeSource[];
+  sources: iMirrorSource[];
   activeSourceId: string | null;
 }
 

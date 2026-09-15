@@ -1,4 +1,4 @@
-import type { PairingPayload } from "@lensbridge/shared";
+import type { PairingPayload } from "@imirror/shared";
 
 export interface PairingState {
   payload: PairingPayload | null;

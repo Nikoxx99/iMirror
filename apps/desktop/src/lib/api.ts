@@ -1,4 +1,4 @@
-import type { PairingPayload, SecurityAuditEvent, TrustedDeviceRecord } from "@lensbridge/shared";
+import type { PairingPayload, SecurityAuditEvent, TrustedDeviceRecord } from "@imirror/shared";
 import { invoke } from "@tauri-apps/api/core";
 
 interface RuntimeStatus {
@@ -29,6 +29,11 @@ export interface UnityCapturePublishResult {
   height: number;
   message: string;
   rustFrameWriteMicros?: number;
+}
+
+export interface DriverActionResult {
+  success: boolean;
+  message: string;
 }
 
 export interface TrustDeviceRequest {
@@ -63,7 +68,7 @@ export async function getRuntimeStatus(): Promise<RuntimeStatus> {
   return {
     localHost: window.location.hostname || "127.0.0.1",
     signalingPort: 48173,
-    desktopName: "LensBridge Dev"
+    desktopName: "iMirror Dev"
   };
 }
 
@@ -186,15 +191,25 @@ export async function resetUnityCaptureBridge(): Promise<void> {
   }
 }
 
+export async function installWindowsCamera(): Promise<DriverActionResult> {
+  if (!isTauriRuntime()) throw new Error("Camera driver installation is available in the iMirror Windows app.");
+  return invoke<DriverActionResult>("install_windows_camera");
+}
+
+export async function uninstallWindowsCamera(): Promise<DriverActionResult> {
+  if (!isTauriRuntime()) throw new Error("Camera driver removal is available in the iMirror Windows app.");
+  return invoke<DriverActionResult>("uninstall_windows_camera");
+}
+
 function createBrowserMockSession(): PairingPayload {
   const host = window.location.hostname || "127.0.0.1";
   const port = 48173;
   const sessionId = crypto.randomUUID();
   const token = crypto.randomUUID().replace(/-/g, "");
   return {
-    app: "LensBridge",
+    app: "iMirror",
     version: "0.1",
-    desktopName: "LensBridge Dev",
+    desktopName: "iMirror Dev",
     host,
     port,
     sessionId,
@@ -206,7 +221,7 @@ function createBrowserMockSession(): PairingPayload {
   };
 }
 
-const BROWSER_TRUSTED_DEVICES_KEY = "lensbridge.desktop.trustedDevices.dev.v1";
+const BROWSER_TRUSTED_DEVICES_KEY = "imirror.desktop.trustedDevices.dev.v1";
 
 function readBrowserTrustedDevices() {
   try {

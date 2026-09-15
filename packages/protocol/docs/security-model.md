@@ -1,6 +1,6 @@
 # Security Model
 
-LensBridge is local-first.
+iMirror is local-first.
 
 V1 security controls:
 

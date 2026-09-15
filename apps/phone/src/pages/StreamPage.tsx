@@ -1,4 +1,4 @@
-import { createPairingCode, type PairingPayload, type QualityProfileId } from "@lensbridge/shared";
+import { createPairingCode, type PairingPayload, type QualityProfileId } from "@imirror/shared";
 import { useEffect, useRef } from "react";
 import { CameraPreview } from "../camera/CameraPreview";
 import type { UseCameraResult } from "../camera/useCamera";
@@ -56,7 +56,7 @@ export function StreamPage({ pairing, camera, quality, autoReconnect, onQualityC
           <p className="mt-2 text-lg font-semibold">
             {stream.status === "rejected" ? "Pairing rejected on desktop." : "Waiting for desktop approval."}
           </p>
-          <p className="mt-2 text-slate-200">Confirm that this code matches LensBridge Desktop:</p>
+          <p className="mt-2 text-slate-200">Confirm that this code matches iMirror Desktop:</p>
           <p className="mt-3 font-mono text-3xl font-semibold tracking-[0.35em] text-white">{pairingCode}</p>
         </div>
       ) : null}

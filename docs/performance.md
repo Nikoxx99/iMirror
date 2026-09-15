@@ -1,6 +1,6 @@
 # Performance
 
-LensBridge measures the current Windows frame path before claiming it is fast.
+iMirror measures the current Windows frame path before claiming it is fast.
 
 ## Implemented Instrumentation
 
@@ -13,7 +13,7 @@ The desktop frame pump tracks:
 - p95 canvas-to-IPC send duration.
 - Rust frame write duration reported by the Tauri command.
 
-These values are shown in the Direct Windows Camera panel while `LensBridge Camera` is open in a consumer app.
+These values are shown in the Direct Windows Camera panel while `iMirror Camera` is open in a consumer app.
 
 ## Current Pipeline
 
@@ -26,7 +26,7 @@ flowchart LR
   Readback --> IPC["Tauri raw IPC"]
   IPC --> Rust["Rust frame validator/writer"]
   Rust --> SharedMemory["UnityCapture shared memory"]
-  SharedMemory --> DirectShow["LensBridge Camera"]
+  SharedMemory --> DirectShow["iMirror Camera"]
 ```
 
 The active transport is latest-frame-wins:

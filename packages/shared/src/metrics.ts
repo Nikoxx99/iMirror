@@ -35,7 +35,7 @@ export function summarizeFramePumpBenchmark(
 ): FramePumpBenchmarkSummary {
   const durations = [...sample.frameSendDurationsMs].sort((left, right) => left - right);
   const average = durations.length ? durations.reduce((total, value) => total + value, 0) / durations.length : 0;
-  const p95 = durations.length ? durations[Math.floor((durations.length - 1) * 0.95)] ?? 0 : 0;
+  const p95 = durations.length ? (durations[Math.floor((durations.length - 1) * 0.95)] ?? 0) : 0;
 
   return {
     actualFps: durationSeconds > 0 ? sample.deliveredFrames / durationSeconds : 0,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { PairingPayload } from "@lensbridge/shared";
+import type { PairingPayload } from "@imirror/shared";
 import { parseManualPayload } from "./parsePairingUrl";
 
 export function ManualConnect({ onPair }: { onPair: (payload: PairingPayload) => void }) {
@@ -23,7 +23,7 @@ export function ManualConnect({ onPair }: { onPair: (payload: PairingPayload) =>
       <textarea
         id="manual-pairing"
         className="mt-3 min-h-24 w-full resize-none rounded-lg border border-line bg-black/25 p-3 text-sm text-white outline-none focus:border-brand"
-        placeholder="Paste a LensBridge pairing link or payload"
+        placeholder="Paste a iMirror pairing link or payload"
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />

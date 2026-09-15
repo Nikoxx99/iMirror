@@ -1,4 +1,4 @@
-export type LensBridgeErrorCode =
+export type IMirrorErrorCode =
   | "camera-permission-denied"
   | "camera-unavailable"
   | "browser-unsupported"
@@ -12,8 +12,8 @@ export type LensBridgeErrorCode =
   | "virtual-camera-unavailable"
   | "not-implemented";
 
-export interface LensBridgeErrorShape {
-  code: LensBridgeErrorCode;
+export interface IMirrorErrorShape {
+  code: IMirrorErrorCode;
   message: string;
   technicalDetail?: string;
   suggestedFix?: string;

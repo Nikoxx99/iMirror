@@ -1,8 +1,8 @@
-export const LENSBRIDGE_APP_NAME = "LensBridge" as const;
-export const LENSBRIDGE_PROTOCOL_VERSION = "0.1" as const;
+export const IMIRROR_APP_NAME = "iMirror" as const;
+export const IMIRROR_PROTOCOL_VERSION = "0.1" as const;
 
 export interface PairingPayload {
-  app: typeof LENSBRIDGE_APP_NAME;
+  app: typeof IMIRROR_APP_NAME;
   version: string;
   desktopName: string;
   host: string;
@@ -13,6 +13,7 @@ export interface PairingPayload {
   transport: "wifi-webrtc";
   secure: boolean;
   signalingUrl: string;
+  desktopSignalingUrl?: string;
   phoneUrl?: string;
 }
 
@@ -21,7 +22,7 @@ export function isPairingPayload(value: unknown): value is PairingPayload {
   const payload = value as Record<string, unknown>;
 
   return (
-    payload.app === LENSBRIDGE_APP_NAME &&
+    payload.app === IMIRROR_APP_NAME &&
     typeof payload.version === "string" &&
     typeof payload.desktopName === "string" &&
     typeof payload.host === "string" &&
@@ -37,7 +38,10 @@ export function isPairingPayload(value: unknown): value is PairingPayload {
 
 export function encodePairingPayload(payload: PairingPayload): string {
   const json = JSON.stringify(payload);
-  return btoa(unescape(encodeURIComponent(json))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return btoa(unescape(encodeURIComponent(json)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
 export function decodePairingPayload(encoded: string): PairingPayload {
@@ -47,7 +51,7 @@ export function decodePairingPayload(encoded: string): PairingPayload {
   const parsed = JSON.parse(json) as unknown;
 
   if (!isPairingPayload(parsed)) {
-    throw new Error("Invalid LensBridge pairing payload.");
+    throw new Error("Invalid iMirror pairing payload.");
   }
 
   return parsed;

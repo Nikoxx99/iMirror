@@ -46,7 +46,7 @@ function Send-DeviceChangeBroadcast {
 using System;
 using System.Runtime.InteropServices;
 
-public static class LensBridgeDeviceBroadcast {
+public static class IMirrorDeviceBroadcast {
     [DllImport("user32.dll", SetLastError = true)]
     public static extern IntPtr SendMessageTimeout(
         IntPtr hWnd,
@@ -60,25 +60,19 @@ public static class LensBridgeDeviceBroadcast {
 "@ -ErrorAction SilentlyContinue
 
     $result = [IntPtr]::Zero
-    [LensBridgeDeviceBroadcast]::SendMessageTimeout([IntPtr]0xffff, 0x0219, [IntPtr]::Zero, [IntPtr]::Zero, 2, 1000, [ref]$result) | Out-Null
+    [IMirrorDeviceBroadcast]::SendMessageTimeout([IntPtr]0xffff, 0x0219, [IntPtr]::Zero, [IntPtr]::Zero, 2, 1000, [ref]$result) | Out-Null
 }
 
-Write-Host "LensBridge Camera driver removal" -ForegroundColor Cyan
+Write-Host "iMirror Camera driver removal" -ForegroundColor Cyan
 Assert-Administrator
 
 $resolvedDriverPath = (Resolve-Path -LiteralPath $DriverPath).Path
 $dll64 = Join-Path $resolvedDriverPath "UnityCaptureFilter64.dll"
-$dll32 = Join-Path $resolvedDriverPath "UnityCaptureFilter32.dll"
 
 Write-Host "Unregistering 64-bit DirectShow filter..."
 Unregister-Filter -RegSvr32 "$env:SystemRoot\System32\regsvr32.exe" -DllPath $dll64
 
-if ([Environment]::Is64BitOperatingSystem) {
-    Write-Host "Unregistering 32-bit DirectShow filter..."
-    Unregister-Filter -RegSvr32 "$env:SystemRoot\SysWOW64\regsvr32.exe" -DllPath $dll32
-}
-
-$installInfo = Join-Path $env:APPDATA "LensBridge\driver-install.json"
+$installInfo = Join-Path $env:APPDATA "iMirror\driver-install.json"
 if (Test-Path -LiteralPath $installInfo) {
     Remove-Item -LiteralPath $installInfo -Force
 }

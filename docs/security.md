@@ -1,6 +1,6 @@
 # Security
 
-LensBridge is local-first and now requires explicit desktop approval before an unknown phone can start WebRTC.
+iMirror is local-first and now requires explicit desktop approval before an unknown phone can start WebRTC.
 
 ## What It Processes
 
@@ -30,7 +30,7 @@ LensBridge is local-first and now requires explicit desktop approval before an u
 
 ## Trusted Device Storage
 
-Trusted device and audit files are stored under the LensBridge local app data directory, or under `LENSBRIDGE_SECURITY_DIR` when that environment variable is set for tests/development.
+Trusted device and audit files are stored under the iMirror local app data directory, or under `IMIRROR_SECURITY_DIR` when that environment variable is set for tests/development.
 
 The allowlist stores a stable phone device ID and metadata. It does not store raw pairing tokens.
 
@@ -43,6 +43,6 @@ The allowlist stores a stable phone device ID and metadata. It does not store ra
 
 ## Threat Model
 
-LensBridge protects against accidental or opportunistic LAN joins when a QR/link leaks briefly. It assumes the desktop user can visually approve or reject unknown devices. Use plain HTTP/WS development mode only on a trusted local network.
+iMirror protects against accidental or opportunistic LAN joins when a QR/link leaks briefly. It assumes the desktop user can visually approve or reject unknown devices. Use plain HTTP/WS development mode only on a trusted local network.
 
 See also [security-architecture.md](security-architecture.md).

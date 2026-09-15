@@ -24,7 +24,7 @@ export interface SourceCapabilities {
   supportsHardwareEncoding: boolean;
 }
 
-export interface LensBridgeSource {
+export interface iMirrorSource {
   id: string;
   name: string;
   type: SourceType;

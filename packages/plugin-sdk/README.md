@@ -1,4 +1,4 @@
-# @lensbridge/plugin-sdk
+# @imirror/plugin-sdk
 
 V1 ships typed plugin contracts and examples. Runtime plugin loading is planned for V4.
 
@@ -9,4 +9,4 @@ Plugin categories:
 - `transport-driver`
 - `ui-panel`
 
-The SDK is intentionally small while LensBridge stabilizes its internal media pipeline.
+The SDK is intentionally small while iMirror stabilizes its internal media pipeline.

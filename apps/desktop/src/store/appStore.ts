@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { isQualityProfileId, type QualityProfileId } from "@lensbridge/shared";
+import { isQualityProfileId, type QualityProfileId } from "@imirror/shared";
 
 export interface AppPreferences {
   theme: "dark" | "light" | "system";
@@ -13,7 +13,7 @@ export const defaultPreferences: AppPreferences = {
   autoReconnect: true
 };
 
-const STORAGE_KEY = "lensbridge.preferences.v1";
+const STORAGE_KEY = "imirror.preferences.v1";
 const listeners = new Set<(preferences: AppPreferences) => void>();
 let cachedPreferences: AppPreferences | null = null;
 

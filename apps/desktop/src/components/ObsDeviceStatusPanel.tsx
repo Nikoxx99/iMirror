@@ -32,7 +32,7 @@ export function ObsDeviceStatusPanel() {
             <h3 className="text-lg font-semibold text-white">OBS fallback detection</h3>
             <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-400">
               Use this only for the OBS fallback path. For the direct Windows path, Chrome should show{" "}
-              <span className="text-slate-200">LensBridge Camera</span> after installing the driver.
+              <span className="text-slate-200">iMirror Camera</span> after installing the driver.
             </p>
           </div>
         </div>

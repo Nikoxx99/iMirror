@@ -13,12 +13,12 @@ flowchart LR
   Canvas --> IPC["Tauri raw IPC Uint8Array"]
   IPC --> Rust["Rust frame validation"]
   Rust --> Unity["UnityCapture shared memory"]
-  Unity --> DShow["LensBridge Camera"]
+  Unity --> DShow["iMirror Camera"]
 ```
 
 ## Capture Stage
 
-The phone PWA owns camera permission and applies LensBridge quality profiles. The current supported profiles avoid wasteful 4K capture because the desktop output path is capped for 720p-class output.
+The phone PWA owns camera permission and applies iMirror quality profiles. The current supported profiles avoid wasteful 4K capture because the desktop output path is capped for 720p-class output.
 
 ## Desktop Preview Stage
 

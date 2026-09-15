@@ -1,4 +1,9 @@
-const roadmap = ["V1 phone preview", "V2 OBS reliability", "V3 universal sources", "V4 local AI + plugins"];
+const roadmap = [
+  "Now: phone → Windows webcam",
+  "Next: lower frame-copy latency",
+  "Later: virtual microphone",
+  "Future: local video effects"
+];
 
 export function Roadmap() {
   return (

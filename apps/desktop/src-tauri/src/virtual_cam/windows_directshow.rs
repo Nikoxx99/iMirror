@@ -4,7 +4,7 @@ pub struct WindowsDirectShow;
 
 impl VirtualDevice for WindowsDirectShow {
     fn name(&self) -> &'static str {
-        "LensBridge Cam for Windows"
+        "iMirror Cam for Windows"
     }
 
     fn status(&self) -> VirtualDeviceStatus {

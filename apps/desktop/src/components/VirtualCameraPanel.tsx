@@ -29,16 +29,16 @@ export function VirtualCameraPanel({ directCamera }: VirtualCameraPanelProps) {
               </span>
             </div>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
-              If the DirectShow driver is not installed yet, OBS can still expose a LensBridge window capture through
-              OBS Virtual Camera.
+              If the DirectShow driver is not installed yet, OBS can still expose a iMirror window capture through OBS
+              Virtual Camera.
             </p>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
               Use the dashboard's Open OBS Output action before adding a Window Capture source. That output hides all
-              LensBridge chrome and renders only the live camera feed.
+              iMirror chrome and renders only the live camera feed.
             </p>
             <div className="mt-4 grid gap-2 text-sm text-slate-300 sm:grid-cols-3">
               <Step number="1" label="Connect phone" />
-              <Step number="2" label="Select LensBridge Camera" />
+              <Step number="2" label="Select iMirror Camera" />
               <Step number="3" label="Use OBS only as fallback" />
             </div>
             <div className="mt-4 flex flex-wrap gap-3">

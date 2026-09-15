@@ -4,24 +4,24 @@ const items = [
   {
     title: "OBS shows black screen",
     cause:
-      "Most often OBS is capturing LensBridge Desktop instead of LensBridge OBS Output, or Window Capture is missing WebView2 video content.",
-    fix: "Click Open OBS Output first, select LensBridge OBS Output in OBS, then try Windows Graphics Capture, Windows 10 1903 and up, then BitBlt.",
+      "Most often OBS is capturing iMirror Desktop instead of iMirror OBS Output, or Window Capture is missing WebView2 video content.",
+    fix: "Click Open OBS Output first, select iMirror OBS Output in OBS, then try Windows Graphics Capture, Windows 10 1903 and up, then BitBlt.",
     checklist:
-      "Black screen checklist:\n1. In LensBridge, click Open OBS Output.\n2. Confirm the window title says LensBridge OBS Output.\n3. In OBS, select LensBridge OBS Output, not LensBridge Desktop.\n4. Try Windows Graphics Capture.\n5. Try Windows 10 1903 and up.\n6. Try BitBlt.\n7. Use Display Capture and crop if all methods fail."
+      "Black screen checklist:\n1. In iMirror, click Open OBS Output.\n2. Confirm the window title says iMirror OBS Output.\n3. In OBS, select iMirror OBS Output, not iMirror Desktop.\n4. Try Windows Graphics Capture.\n5. Try Windows 10 1903 and up.\n6. Try BitBlt.\n7. Use Display Capture and crop if all methods fail."
   },
   {
-    title: "OBS does not list LensBridge",
+    title: "OBS does not list iMirror",
     cause: "OBS only lists visible, unminimized windows.",
-    fix: "Open OBS Output, keep the LensBridge window visible, then reopen Window Capture properties.",
+    fix: "Open OBS Output, keep the iMirror window visible, then reopen Window Capture properties.",
     checklist:
-      "Missing window checklist:\n1. Open LensBridge OBS Output.\n2. Keep it unminimized.\n3. Reopen OBS Window Capture properties.\n4. Select LensBridge OBS Output."
+      "Missing window checklist:\n1. Open iMirror OBS Output.\n2. Keep it unminimized.\n3. Reopen OBS Window Capture properties.\n4. Select iMirror OBS Output."
   },
   {
-    title: "Browser does not show LensBridge Camera",
+    title: "Browser does not show iMirror Camera",
     cause: "The Windows DirectShow driver is not installed yet, or Chrome cached its camera list before installation.",
-    fix: "Run the Windows driver installer as Administrator, restart Chrome, then choose LensBridge Camera in the camera picker.",
+    fix: "Run the Windows driver installer as Administrator, restart Chrome, then choose iMirror Camera in the camera picker.",
     checklist:
-      "Camera picker checklist:\n1. Run pnpm install:windows-camera as Administrator.\n2. Restart Chrome fully.\n3. Start LensBridge and connect your phone.\n4. Select LensBridge Camera.\n5. Keep the camera preview open for a few seconds."
+      "Camera picker checklist:\n1. Run pnpm install:windows-camera as Administrator.\n2. Restart Chrome fully.\n3. Start iMirror and connect your phone.\n4. Select iMirror Camera.\n5. Keep the camera preview open for a few seconds."
   },
   {
     title: "Preview is mirrored",
@@ -33,9 +33,9 @@ const items = [
   {
     title: "Aspect ratio looks wrong",
     cause: "OBS source transform or output fit mode is stretching the frame.",
-    fix: "Use Fit in LensBridge OBS Output, then right-click the OBS source and choose Transform -> Fit to Screen.",
+    fix: "Use Fit in iMirror OBS Output, then right-click the OBS source and choose Transform -> Fit to Screen.",
     checklist:
-      "Aspect checklist:\n1. Set LensBridge output to Fit.\n2. Right-click OBS source.\n3. Transform -> Fit to Screen.\n4. Avoid manual stretching."
+      "Aspect checklist:\n1. Set iMirror output to Fit.\n2. Right-click OBS source.\n3. Transform -> Fit to Screen.\n4. Avoid manual stretching."
   },
   {
     title: "Video is laggy",

@@ -1,4 +1,4 @@
-const DEVICE_ID_KEY = "lensbridge.phone.deviceId.v1";
+const DEVICE_ID_KEY = "imirror.phone.deviceId.v1";
 
 export interface PhoneDeviceIdentity {
   deviceId: string;

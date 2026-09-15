@@ -1,4 +1,4 @@
-import type { ConnectionStatus } from "@lensbridge/shared";
+import type { ConnectionStatus } from "@imirror/shared";
 import { useMemo } from "react";
 
 export function useConnectionStatus(status: ConnectionStatus) {

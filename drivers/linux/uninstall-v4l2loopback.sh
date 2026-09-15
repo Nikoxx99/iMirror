@@ -13,4 +13,4 @@ else
   echo "v4l2loopback is not loaded."
 fi
 
-echo "LensBridge does not remove packages automatically. Remove v4l2loopback with your package manager if desired."
+echo "iMirror does not remove packages automatically. Remove v4l2loopback with your package manager if desired."

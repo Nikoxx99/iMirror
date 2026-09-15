@@ -1,4 +1,4 @@
-use crate::errors::{LensBridgeError, LensBridgeResult};
+use crate::errors::{IMirrorError, IMirrorResult};
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -64,7 +64,7 @@ impl TrustedDeviceStore {
         label: String,
         platform: Option<String>,
         user_agent: Option<String>,
-    ) -> LensBridgeResult<TrustedDeviceRecord> {
+    ) -> IMirrorResult<TrustedDeviceRecord> {
         let now = Utc::now().to_rfc3339();
         let fingerprint = device_fingerprint(&device_id);
         let mut devices = self.devices.write().expect("trusted device lock poisoned");
@@ -96,7 +96,7 @@ impl TrustedDeviceStore {
         Ok(record)
     }
 
-    pub fn mark_seen(&self, device_id: &str) -> LensBridgeResult<()> {
+    pub fn mark_seen(&self, device_id: &str) -> IMirrorResult<()> {
         let mut devices = self.devices.write().expect("trusted device lock poisoned");
         if let Some(existing) = devices
             .iter_mut()
@@ -108,7 +108,7 @@ impl TrustedDeviceStore {
         Ok(())
     }
 
-    pub fn revoke(&self, device_id: &str) -> LensBridgeResult<bool> {
+    pub fn revoke(&self, device_id: &str) -> IMirrorResult<bool> {
         let mut devices = self.devices.write().expect("trusted device lock poisoned");
         let original_len = devices.len();
         devices.retain(|device| device.device_id != device_id);
@@ -130,12 +130,12 @@ fn load_devices(path: &Path) -> Vec<TrustedDeviceRecord> {
         .unwrap_or_default()
 }
 
-fn save_devices(path: &Path, devices: &[TrustedDeviceRecord]) -> LensBridgeResult<()> {
+fn save_devices(path: &Path, devices: &[TrustedDeviceRecord]) -> IMirrorResult<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|err| {
-            LensBridgeError::new(
+            IMirrorError::new(
                 "trusted_devices_write_failed",
-                "Could not create LensBridge security data directory.",
+                "Could not create iMirror security data directory.",
             )
             .with_detail(err.to_string())
         })?;
@@ -145,7 +145,7 @@ fn save_devices(path: &Path, devices: &[TrustedDeviceRecord]) -> LensBridgeResul
         devices: devices.to_vec(),
     })
     .map_err(|err| {
-        LensBridgeError::new(
+        IMirrorError::new(
             "trusted_devices_serialize_failed",
             "Could not serialize trusted devices.",
         )
@@ -153,7 +153,7 @@ fn save_devices(path: &Path, devices: &[TrustedDeviceRecord]) -> LensBridgeResul
     })?;
 
     fs::write(path, body).map_err(|err| {
-        LensBridgeError::new(
+        IMirrorError::new(
             "trusted_devices_write_failed",
             "Could not write trusted devices.",
         )
@@ -162,26 +162,26 @@ fn save_devices(path: &Path, devices: &[TrustedDeviceRecord]) -> LensBridgeResul
 }
 
 pub fn security_data_dir() -> PathBuf {
-    if let Ok(path) = std::env::var("LENSBRIDGE_SECURITY_DIR") {
+    if let Ok(path) = std::env::var("IMIRROR_SECURITY_DIR") {
         return PathBuf::from(path);
     }
 
     if let Ok(app_data) = std::env::var("APPDATA") {
-        return PathBuf::from(app_data).join("LensBridge");
+        return PathBuf::from(app_data).join("iMirror");
     }
 
     if let Ok(xdg_state_home) = std::env::var("XDG_STATE_HOME") {
-        return PathBuf::from(xdg_state_home).join("lensbridge");
+        return PathBuf::from(xdg_state_home).join("imirror");
     }
 
     if let Ok(home) = std::env::var("HOME") {
         return PathBuf::from(home)
             .join(".local")
             .join("state")
-            .join("lensbridge");
+            .join("imirror");
     }
 
-    std::env::temp_dir().join("lensbridge")
+    std::env::temp_dir().join("imirror")
 }
 
 fn device_fingerprint(device_id: &str) -> String {
@@ -238,7 +238,7 @@ mod tests {
 
     fn test_path(name: &str) -> PathBuf {
         std::env::temp_dir().join(format!(
-            "lensbridge-{name}-{}.json",
+            "imirror-{name}-{}.json",
             Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ))
     }

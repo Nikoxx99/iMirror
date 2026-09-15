@@ -1,6 +1,6 @@
 # Plugin System
 
-V1 includes `@lensbridge/plugin-sdk` type contracts.
+V1 includes `@imirror/plugin-sdk` type contracts.
 
 Runtime plugin loading is planned for V4.
 
